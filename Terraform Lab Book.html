@@ -1,0 +1,1256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<meta content="text/css" http-equiv="Content-Style-Type">
+<meta content="pandoc" name="generator">
+<title></title>
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  
+  /* Pandoc will embed these styles into the HTML
+  but that requires that it be defined in a style tag */
+  
+  body {
+    font-family: "Open Sans", "DejaVu Sans", sans-serf;
+  }
+  
+  @media screen {
+    body {
+      margin: 0 96px;
+      font-size: 16px;
+    }
+  }
+  
+  @media print {
+    body {
+      font-size: 9px;
+    }
+  }
+  
+  h1, h2, h3, h4, h5 {
+    font-family: "Klavika Basic", "DejaVu Sans", sans-serif;
+  }
+  
+  /* Draw thick line under headers to comply with HashiCorp style guide */
+  h1:after, h2:after {
+    content: " ";
+    border-bottom: 0.25em solid #ccc;
+    display: block;
+    width: 1em;
+  }
+  
+  /* When a paragraph is a sibling of an h1 and h2 - do not indent */
+  
+  h1 ~ p, h2 ~ p {
+    margin-left: 0;
+  }
+  
+  h3 ~ p, h4 ~ p {
+    margin-left: 7em;
+  }
+  
+  h1 + p, h1 + p + p, h1 + p + p + p {
+    margin-left: 0;
+  }
+  
+  h2 + p, h2 + p + p, h2 + p + p + p {
+    margin-left: 0;
+  }
+  
+  /* When a blockquote is a sibling of an h1 and h2 do not indent */
+  
+  h1 ~ blockquote, h2 ~ blockquote {
+    margin-left: 0;
+  }
+  
+  /* When a blockquote is a sibling of an h3 and h4 - ident */
+  
+  h3 ~ blockquote, h4 ~ blockquote {
+    margin-left: 7em;
+  }
+  
+  /* Blockquote Icon Styles */
+  
+  blockquote {
+    min-height: 40px;
+  }
+  
+  blockquote .icon {
+    width: 30px;
+    height: 30px;
+    float: left;
+  }
+  
+  blockquote p {
+    display: inline;
+  }
+  
+  /* Open Iconic - timer-8x.png */
+  blockquote .duration {
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAABWZJREFUeJztm11sFUUYhp+e0tJSqlJpsMZgUi34b0Co0RCJmhjUakQSjV6oxBsxEqPhxhv8jz8oGjVe6oUkoFFjJDFGMUS5gWAw/mKVakUMtlT0UBXh2K4X3554WHb3m5mdOSdG3mRuurvv+357dma++WbaRHGMeeDIw8yQ5E0eOCIPHHnw4TETpZDk/wUcewGNNtBoHHsBjTbQaPzvX8AUDxzJaaoDuARYAJwPLFOeXwV8GbeDHvw0BNOB24H3gL+Q3MC2VYAdwFrgQk++zvXEk4nZwIvA77gFndUeLOhrKrA69hcEXUjgh/EbeLX1FfB2KvAhsLAARy5uBfYRJvAI2FrA25LYmzbuOOE4YAPhAq+2uxy8lZBuMwHc5xKchl5gkPDBV7Bf/Z0IvBs//7JjfLmYD4wQPvgI2GjprR/4IX52M9BiG5yWB5wHbAJm2BIDX8emdiBfzwgyW1SQXKEHmIvkC5cDZwDrLPhXAM8CrcA3SL+vOPjMRC/wM3a/4CjwKBKYLc4C2gzumwa8UqM5BpzuoJeLDuAzzAP/Dbg3NhcSfcDnNbqHkKzTO9ZhHvwbwKwQJhJYCpQT2reEEFqGWeB/AytDGEigGXg8Rf+REGLHY9bvDwLXhjCQwCxkIE3qv0qgWmHam06bqwdCiCdwMfBTiv5WzAZLa5yM/LLaC1gRQjyBu0lfZwwTcLx5LEUw2TaEEo/RAazP0C4DZ4cSbkfm07zgx5C0MxTmAF9kaFeAKwJqc2OGcL0+/es5eoqrbXcY8rQBtwHbkWqUMV7PEY+APUjK6RvNwBOK9tMGPL3AGuCXmufWmJpoBf5QTIRYYs5E1hl5um+RXbgtIbPRO8BkyrO7TI1cpJiYAE6xicwAC/h3FZfVPiY/tZ5NeuC17TQTM6sUkiIVmjQsRy+c7kZWixq2KzzLNYIScI5yz2YDIyZoQeqILyFFyyyMI5/2XgPO95XrF5gY20L+W/RRX+sGPlJ0ImR9caUF73UK3wcmJFpf1L4QDTMwL6fdacl9psI3ZELyq0JSNPl5UuG3me6SOEHhLJuQaLX9ovO/SWHlTdz2KZsV3gkTEu0FWBcaE8hKb2tnmXZH7laF+5BGUEJG3TxMdzRXxaaca0NIXcF1U7RTuX7AhGSY/LfoUuCsRTcyryd5Ryi2BQb6IPidRlACflTumVPMI/uQ4sZ6ZFAqIxWdfuDbgtzaj7NbI5iCTFGLcu6Zh/2GRRJ7gJsLcqRhnnJ9UCMoAV8p91xqbKf+uEy5vtOEpJ/8fnSYsIUQV3QjhZI870apcDP5xQiXDK0eWEm+5/1Y5BZaQWSnDVkdUEJPr63ql9qiIgJu8OPdC25C92tVum9BP/UxjHvG5hMdyNSd53UUhxNwDymkEXKCq9F4Dt3nahfiLiQtziOepD5bYllYmuGrtpWRVaITHjYQGEdqevVGP2bH8e4vIjINfW0QIePF/CJClliIvnETIYurwvuGAwZCEbLSuqqomAGuQe+a1bbEl+gLhoKTSMUnxG5tG/AUeum72p7xKT4VqcubCEfIJoSvwbEJyUuGLPS3UbxwcxR6kPW0qYkI+AQ5SepSROlE6vifWmruIuCWeR/2J8UiZKvtbeAeYDFwEkee6GiK/7YYOVy1EfjTQWcvhrs/RdAHfO9gLm28GI+bab/WfvngwVfRg92YELptoz4n045AK/B8QeM+2loCDHg2uBo/XcLlk/c2zxdFO7J4OkD4wMtIehvkZFhRdAEPEOYfKEaRVZ3zwqaeaEESodfQ9xrz2n6kkjOAn/9oUxHitGUJWSgtQjYu5iKnOTqR/zoB6TrjSN1+ECm5bUESqckAnjLxDxGOYgWwAaOvAAAAAElFTkSuQmCC');
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+  }
+  
+  /* Open Iconic - bookmark-8x.png */
+  blockquote .note {
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAPlJREFUeJzt0MGugkAQBVH0y9sv142duND3lBk4kNxKWNJTty7LOPcJN0a4jPx8nWVxVhJAC2gSQAtoEkALaBJAC2gSQAtoEkALaBJAC2gSQAtoEkALaBJAC2gSQAtoEkALaBJAC2gSQAtoEkALaBJAC2gSQAtoEkALaBJAC2gSQAtoEkALaBJAC2gSQAtodIDb8zs195VfvdyogTuc0fFNrbzFmTG+qRX3OLPGN/XjTc7M8U39cJcze3xTX97mbDG+qS/uc7Ya39Q/b3C2HN/UH+9wth7f1Ie3OHuMb+rNe5y9xje1HDRA7fhmLQcLUODdWg4SoM789gMpCuKSDQ0BpwAAAABJRU5ErkJggg==');
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+  }
+  
+  /* Open Iconic - puzzle-piece-8x.png */
+  blockquote .puzzle {
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAoVJREFUeJztm09LFVEYxn/qNXMRbVxEaUpB66BVQVAWKn6CCLWgRYs+SNCXiP5In0BIwYRAaBO0DvXqtaJFqxZqXfuzOA50JZg58z7je52ZH7y7897nOc+ZGc8dzwU908ArYBNoH1QTmAcmC9DrGkaAt8CflHoDnHPyWBgjwDbpk09qCzjr4rQgsqz84Vp2cVoA08RPPqkJB78d9Ao+Y9bQOyPQd2eT/FfA+tHb7aRH8BltoGHoPSHwkBvFLbDv1CtBEcAHQ+97gb4JRQDPDb3PBPrunARaxD8Amzjf/0ruEx/AXQ+jRdEHbJB98h/R3H5mVCZ+AYsR41eA3yJtE8pV+B4x9ptQ10QP4ZI8zpg2c11xH3pSB+BtwJs6AG8D3tQBeBvwpg7A24A3dQDeBrypA/A24E0dgLcBb8oYwCDwCHgH7JHhfELef2t1SyU0gAfA55TxHecTyvBG6AlwGpgCRjP2tICrwBfwX0GvWoZyXAEWJsv4EIxhpupXwEbVA2hX/RYo5UYohlbVA1it+jPgNvhvSLxqCcqxEXoMDAHjwMWMPU3gGvAV/FfCWgm9hEObWynjl4Az/6bhPQFVAAkDwENgFdgBfgJrhANZt/4zXm5oAbhD+GbWOKgxwpmg10cQQDQqIy3gega9m8Anoa4Z1eSHIzTPk/7i4lgFkGXlDzMu0jZjNbBg0F4U6JtQbIVfGHpfCvTNWFdg1KB9QaBvQrET7Cf/sfd+wt9pC+7H5PL+WMLaK0ERwGVD7xWBvglFAHOG3nsCfTPWh9Au4YeTsYwBPwT6ZhSbkac5dOdF2mYUJvYJK5qVS4Qj9u4BqN4J9gE3IsZPCbVNKE0MRYw9JdQ18RflJfuLoJNwrgAAAABJRU5ErkJggg==');
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+  }
+  
+  /* Open Iconic - warning-8x.png */
+  blockquote .warning {
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAw5JREFUeJztm0+ITVEcxz8z80ymaSbDqFGjRg2FYjazYYPSlNiwmRKlWBjChs1srGRjgQ2bt7GSkgUWWLBhoRRqLFhQlEKjKaFp5ljcbqF57/z7/c6585pPnd2d876f7z3v3tPc+0CXEWAaMA3GFNCtnCErt2gsX46JbOmUWQvMYi/gDdCWKaMqF7HLl2MsU0Y1uoBvuBdwL09MPY7hLm+AeWB9lqRKvMavAANcyZJUgV34yxtgBujNkFecO4QVYIDTGfKKsg6YI7yAd0B78tSCXCJcvhx7k6cWohv4TnwBD1MHl2KCePlybEqcPZo2ii2tVAHX0saPZww5eQP8APqSGkRyH9kCDHA2qUEEGyi2stIFvAc60mmEcxV5+XLsT+gRRC/FFlargMfJTAI5g558ObYms/GknWLrql1APZWQL/vQlzfAT6A/kZMXj0hTgAEmEzk5s5l08gb4CNSSmDlyHffwNlznGRc1iKCPYquauoCnkhIxnMNv+drwmWtU0COIDuAD+Qq4IacSxgH8L2A2fOb6DQyI2QTwZIFQKQswwHkpGV9GHMKlKOAz0Cnk5EU9IKxGAQY4JOTkzGrgV2BYGyFzPpfRcmcyMKhWAQbYJmLmQA34FBHURui8NyXkXBiPCKlZwCwwKOBn5VlESM0CDHBBwK8po5EBtQv4AiyPEbQ9iKz609p+4KDW5AMUW88qrwADvIyRbLYCjiOz44otyMYWYIfAPP/QSbHljD07qcZt6QIOV0DKZ8wBQyGijR491YE1IRNmoo2ihAcSk20n/xkNGdMEvHe80EWw6re+Rqyg+OpGMYjb+71VHVN4vnf8/wo4QcX+/+7JRmB36B93AV+RPys2pD/vbmgBRxXC5ChgHhgOKeBVixRggMu+8juVguQqYAbocREvL4KnXA5eRPQAR1wPHiLu/d4qrgADvMXhltgOnGSRv6DcgGFgj8uBGre+KqwAQ/GrtabUgFUOIWNwKUEL6+2wFZf+3yyzHdDqBVhZKiB3gNwsFZA7QG5qFL/0WJk7iBIvbAf8AW0/FptCfrrPAAAAAElFTkSuQmCC');
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+  }
+  
+  blockquote {
+    border: none;
+    background-color: #FFF9EA;
+    border-top: 1px solid #e1cc89;
+    border-bottom: 1px solid #e1cc89;
+    padding: 4px;
+    margin-left:  7em;
+    margin-right: 1px;
+  }
+  
+  blockquote p {
+    margin-left: 0px;
+  }
+  
+  .logo {
+    width: 100px;
+  }
+  
+  pre {
+    margin-left: 7em;
+    border: none;
+    background-color: #eee;
+    padding: 1em;
+  }
+  
+  /*
+    A code block that is labeled as `shell` will automatically
+    include the $ prompt character.
+  
+    This is useful because this before creates an element that is
+    not in the code part which is useful for the selection code ahead.
+  */
+  pre.shell code:before {
+    content: "$";
+    padding-right: 5px;
+  }
+  
+  /*
+    A code block that is labeled as `shell` will have text that
+    when clicked will select all of the text.
+  */
+  pre.json code, pre.shell code {
+    -moz-user-select: all;
+    -webkit-user-select: all;
+    -ms-user-select: all;
+    user-select: all;
+  }
+  
+  .header {
+    background-color: black;
+    font-family: "Klavika Basic", "DejaVu Sans", sans-serif;
+  }
+  
+  .header img {
+    height: 1.5em;
+    margin: 0.25em 0.5em;
+  }
+  
+  h2 {
+    margin-top: 3em;
+  }
+  
+  code {
+    white-space: normal;
+    background: #eee;
+  }
+  
+  p code {
+    white-space: normal;
+    background: #eee;
+    padding: 2px;
+  }
+  
+  pre code {
+    font-size: 0.9em;
+    white-space: pre;
+    background: inherit;
+  }
+  
+  
+  h3 + ul, h3 + p + ul, h3 + p + p + ul, h3 + ol, h3 + p + ol, h3 + p + p + ol {
+    margin-left: 7em;
+  }
+  
+  a[href]:after { content : "" }
+  
+  /* Markdown images will appear within a figure class element */
+  
+  .figure {
+    margin-left: 7em;
+    margin-right: 0;
+  }
+  
+  img {
+    max-width: 100%;
+  }
+  
+  .figure p {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+    font-style: italic;
+    padding: 4px;
+    background-color: #DDD;
+  }
+  
+  /* Terminal Window Styles */
+  
+  .window {
+    margin: 0 auto 30px 7em;
+    background: linear-gradient(
+      rgba(211, 211, 211, 1),
+      rgba(200, 200, 200, 1) 21px,
+      #ededed,
+      #ededed 23px
+    );
+    border-radius: 3px;
+    text-align: left;
+    z-index: 0;
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .window .container {
+    margin-left: 0;
+    border-radius: 0;
+  }
+  
+  .window h1.titleInside {
+    margin: 0;
+    color: #3c3c3c;
+    font-size: 14px;
+    padding: 0 5px;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: unset;
+  }
+  
+  .window .container .terminal pre {
+    margin: 0;
+    background: #272822;
+    color: #fff;
+    white-space: pre-line;
+    overflow-x: auto;
+    overflow-y: hidden;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+  
+  /* Syntax Highlighting for shell code blocks */
+  
+  .shell .highlight .hll { background-color: #49483e }
+  .shell .highlight  { color: #f8f8f2; background: #272822; }
+  .shell .highlight .c { color: #75715e } /* Comment */
+  .shell .highlight .err { color: #960050; background-color: #1e0010 } /* Error */
+  .shell .highlight .k { color: #66d9ef } /* Keyword */
+  .shell .highlight .l { color: #ae81ff } /* Literal */
+  .shell .highlight .n { color: #f8f8f2 } /* Name */
+  .shell .highlight .o { color: #f92672 } /* Operator */
+  .shell .highlight .p { color: #f8f8f2 } /* Punctuation */
+  .shell .highlight .ch { color: #75715e } /* Comment.Hashbang */
+  .shell .highlight .cm { color: #75715e } /* Comment.Multiline */
+  .shell .highlight .cp { color: #75715e } /* Comment.Preproc */
+  .shell .highlight .cpf { color: #75715e } /* Comment.PreprocFile */
+  .shell .highlight .c1 { color: #75715e } /* Comment.Single */
+  .shell .highlight .cs { color: #75715e } /* Comment.Special */
+  .shell .highlight .gd { color: #f92672 } /* Generic.Deleted */
+  .shell .highlight .ge { font-style: italic } /* Generic.Emph */
+  .shell .highlight .gi { color: #a6e22e } /* Generic.Inserted */
+  .shell .highlight .gs { font-weight: bold } /* Generic.Strong */
+  .shell .highlight .gu { color: #75715e } /* Generic.Subheading */
+  .shell .highlight .kc { color: #66d9ef } /* Keyword.Constant */
+  .shell .highlight .kd { color: #66d9ef } /* Keyword.Declaration */
+  .shell .highlight .kn { color: #f92672 } /* Keyword.Namespace */
+  .shell .highlight .kp { color: #66d9ef } /* Keyword.Pseudo */
+  .shell .highlight .kr { color: #66d9ef } /* Keyword.Reserved */
+  .shell .highlight .kt { color: #66d9ef } /* Keyword.Type */
+  .shell .highlight .ld { color: #e6db74 } /* Literal.Date */
+  .shell .highlight .m { color: #ae81ff } /* Literal.Number */
+  .shell .highlight .s { color: #e6db74 } /* Literal.String */
+  .shell .highlight .na { color: #a6e22e } /* Name.Attribute */
+  .shell .highlight .nb { color: #f8f8f2 } /* Name.Builtin */
+  .shell .highlight .nc { color: #a6e22e } /* Name.Class */
+  .shell .highlight .no { color: #66d9ef } /* Name.Constant */
+  .shell .highlight .nd { color: #a6e22e } /* Name.Decorator */
+  .shell .highlight .ni { color: #f8f8f2 } /* Name.Entity */
+  .shell .highlight .ne { color: #a6e22e } /* Name.Exception */
+  .shell .highlight .nf { color: #a6e22e } /* Name.Function */
+  .shell .highlight .nl { color: #f8f8f2 } /* Name.Label */
+  .shell .highlight .nn { color: #f8f8f2 } /* Name.Namespace */
+  .shell .highlight .nx { color: #a6e22e } /* Name.Other */
+  .shell .highlight .py { color: #f8f8f2 } /* Name.Property */
+  .shell .highlight .nt { color: #f92672 } /* Name.Tag */
+  .shell .highlight .nv { color: #f8f8f2 } /* Name.Variable */
+  .shell .highlight .ow { color: #f92672 } /* Operator.Word */
+  .shell .highlight .w { color: #f8f8f2 } /* Text.Whitespace */
+  .shell .highlight .mb { color: #ae81ff } /* Literal.Number.Bin */
+  .shell .highlight .mf { color: #ae81ff } /* Literal.Number.Float */
+  .shell .highlight .mh { color: #ae81ff } /* Literal.Number.Hex */
+  .shell .highlight .mi { color: #ae81ff } /* Literal.Number.Integer */
+  .shell .highlight .mo { color: #ae81ff } /* Literal.Number.Oct */
+  .shell .highlight .sa { color: #e6db74 } /* Literal.String.Affix */
+  .shell .highlight .sb { color: #e6db74 } /* Literal.String.Backtick */
+  .shell .highlight .sc { color: #e6db74 } /* Literal.String.Char */
+  .shell .highlight .dl { color: #e6db74 } /* Literal.String.Delimiter */
+  .shell .highlight .sd { color: #e6db74 } /* Literal.String.Doc */
+  .shell .highlight .s2 { color: #e6db74 } /* Literal.String.Double */
+  .shell .highlight .se { color: #ae81ff } /* Literal.String.Escape */
+  .shell .highlight .sh { color: #e6db74 } /* Literal.String.Heredoc */
+  .shell .highlight .si { color: #e6db74 } /* Literal.String.Interpol */
+  .shell .highlight .sx { color: #e6db74 } /* Literal.String.Other */
+  .shell .highlight .sr { color: #e6db74 } /* Literal.String.Regex */
+  .shell .highlight .s1 { color: #e6db74 } /* Literal.String.Single */
+  .shell .highlight .ss { color: #e6db74 } /* Literal.String.Symbol */
+  .shell .highlight .bp { color: #f8f8f2 } /* Name.Builtin.Pseudo */
+  .shell .highlight .fm { color: #a6e22e } /* Name.Function.Magic */
+  .shell .highlight .vc { color: #f8f8f2 } /* Name.Variable.Class */
+  .shell .highlight .vg { color: #f8f8f2 } /* Name.Variable.Global */
+  .shell .highlight .vi { color: #f8f8f2 } /* Name.Variable.Instance */
+  .shell .highlight .vm { color: #f8f8f2 } /* Name.Variable.Magic */
+  .shell .highlight .il { color: #ae81ff } /* Literal.Number.Integer.Long */
+  
+  /* Syntax Highlighting for all other code blocks */
+  
+  .highlight .hll { background-color: #ffffcc }
+  .highlight  { background: #f0f3f3; }
+  .highlight .c { color: #0099FF; font-style: italic } /* Comment */
+  .highlight .err { color: #AA0000; background-color: #FFAAAA } /* Error */
+  .highlight .k { color: #006699; font-weight: bold } /* Keyword */
+  .highlight .o { color: #555555 } /* Operator */
+  .highlight .ch { color: #0099FF; font-style: italic } /* Comment.Hashbang */
+  .highlight .cm { color: #0099FF; font-style: italic } /* Comment.Multiline */
+  .highlight .cp { color: #009999 } /* Comment.Preproc */
+  .highlight .cpf { color: #0099FF; font-style: italic } /* Comment.PreprocFile */
+  .highlight .c1 { color: #0099FF; font-style: italic } /* Comment.Single */
+  .highlight .cs { color: #0099FF; font-weight: bold; font-style: italic } /* Comment.Special */
+  .highlight .gd { background-color: #FFCCCC; border: 1px solid #CC0000 } /* Generic.Deleted */
+  .highlight .ge { font-style: italic } /* Generic.Emph */
+  .highlight .gr { color: #FF0000 } /* Generic.Error */
+  .highlight .gh { color: #003300; font-weight: bold } /* Generic.Heading */
+  .highlight .gi { background-color: #CCFFCC; border: 1px solid #00CC00 } /* Generic.Inserted */
+  .highlight .go { color: #AAAAAA } /* Generic.Output */
+  .highlight .gp { color: #000099; font-weight: bold } /* Generic.Prompt */
+  .highlight .gs { font-weight: bold } /* Generic.Strong */
+  .highlight .gu { color: #003300; font-weight: bold } /* Generic.Subheading */
+  .highlight .gt { color: #99CC66 } /* Generic.Traceback */
+  .highlight .kc { color: #006699; font-weight: bold } /* Keyword.Constant */
+  .highlight .kd { color: #006699; font-weight: bold } /* Keyword.Declaration */
+  .highlight .kn { color: #006699; font-weight: bold } /* Keyword.Namespace */
+  .highlight .kp { color: #006699 } /* Keyword.Pseudo */
+  .highlight .kr { color: #006699; font-weight: bold } /* Keyword.Reserved */
+  .highlight .kt { color: #007788; font-weight: bold } /* Keyword.Type */
+  .highlight .m { color: #FF6600 } /* Literal.Number */
+  .highlight .s { color: #CC3300 } /* Literal.String */
+  .highlight .na { color: #330099 } /* Name.Attribute */
+  .highlight .nb { color: #336666 } /* Name.Builtin */
+  .highlight .nc { color: #00AA88; font-weight: bold } /* Name.Class */
+  .highlight .no { color: #336600 } /* Name.Constant */
+  .highlight .nd { color: #9999FF } /* Name.Decorator */
+  .highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+  .highlight .ne { color: #CC0000; font-weight: bold } /* Name.Exception */
+  .highlight .nf { color: #CC00FF } /* Name.Function */
+  .highlight .nl { color: #9999FF } /* Name.Label */
+  .highlight .nn { color: #00CCFF; font-weight: bold } /* Name.Namespace */
+  .highlight .nt { color: #330099; font-weight: bold } /* Name.Tag */
+  .highlight .nv { color: #003333 } /* Name.Variable */
+  .highlight .ow { color: #000000; font-weight: bold } /* Operator.Word */
+  .highlight .w { color: #bbbbbb } /* Text.Whitespace */
+  .highlight .mb { color: #FF6600 } /* Literal.Number.Bin */
+  .highlight .mf { color: #FF6600 } /* Literal.Number.Float */
+  .highlight .mh { color: #FF6600 } /* Literal.Number.Hex */
+  .highlight .mi { color: #FF6600 } /* Literal.Number.Integer */
+  .highlight .mo { color: #FF6600 } /* Literal.Number.Oct */
+  .highlight .sa { color: #CC3300 } /* Literal.String.Affix */
+  .highlight .sb { color: #CC3300 } /* Literal.String.Backtick */
+  .highlight .sc { color: #CC3300 } /* Literal.String.Char */
+  .highlight .dl { color: #CC3300 } /* Literal.String.Delimiter */
+  .highlight .sd { color: #CC3300; font-style: italic } /* Literal.String.Doc */
+  .highlight .s2 { color: #CC3300 } /* Literal.String.Double */
+  .highlight .se { color: #CC3300; font-weight: bold } /* Literal.String.Escape */
+  .highlight .sh { color: #CC3300 } /* Literal.String.Heredoc */
+  .highlight .si { color: #AA0000 } /* Literal.String.Interpol */
+  .highlight .sx { color: #CC3300 } /* Literal.String.Other */
+  .highlight .sr { color: #33AAAA } /* Literal.String.Regex */
+  .highlight .s1 { color: #CC3300 } /* Literal.String.Single */
+  .highlight .ss { color: #FFCC33 } /* Literal.String.Symbol */
+  .highlight .bp { color: #336666 } /* Name.Builtin.Pseudo */
+  .highlight .fm { color: #CC00FF } /* Name.Function.Magic */
+  .highlight .vc { color: #003333 } /* Name.Variable.Class */
+  .highlight .vg { color: #003333 } /* Name.Variable.Global */
+  .highlight .vi { color: #003333 } /* Name.Variable.Instance */
+  .highlight .vm { color: #003333 } /* Name.Variable.Magic */
+  .highlight .il { color: #FF6600 } /* Literal.Number.Integer.Long */
+  </style>
+</head>
+<body>
+<h1 id="lab-0-choose-your-editor">Lab 0: Choose your editor</h1>
+<p>Duration: 15 minutes</p>
+<p>You should have received the lab workstation login information from the instructor.</p>
+<p>To follow the rest of the labs, you'll need to edit files and run 
+commands on your workstation. This lab documents three ways to connect 
+to your workstation. Choose whichever method you're most comfortable 
+with, and follow the steps below to connect to your workstation.</p>
+<ol style="list-style-type: decimal">
+<li><p>Visual Studio Code</p>
+<p>Visual Studio Code, or VSCode, is a popular open source editor from 
+Microsoft. Using an extension called Remote-SSH, you can connect to your
+ workstation, edit files, and run commands all from within VSCode.</p></li>
+<li><p>SSH</p>
+<p>If you're comfortable using SSH and a terminal-based editor like vim or nano, you can use SSH to connect to your workstation.</p></li>
+<li><p>Web-based SSH Client</p>
+<p>If you don't want to, or can't, install and use VSCode or SSH on your
+ system, you can use a web-based SSH client from within your browser.</p></li>
+</ol>
+<h2 id="vscode">VSCode</h2>
+<p>One way to navigate through this training is to use VSCode with a few
+ added extensions. There are a few steps to install and configure 
+VSCode, but once set up, this provides an easy to use environment.</p>
+<ul>
+<li>Task 1: Download VSCode</li>
+<li>Task 2: Download the Remote-SSH Extension</li>
+<li>Task 3: Configure SSH</li>
+<li>Task 4: Connection to your workstation in VSCode</li>
+</ul>
+<h3 id="task-1-download-vscode-to-your-local-machine-and-configure-extensions">Task 1: Download VSCode to your local machine and configure extensions</h3>
+<ol style="list-style-type: decimal">
+<li><p>Follow the instructions from <a href="https://code.visualstudio.com/download">this site</a> to get the latest official download for your operating system.</p></li>
+<li><p>Get familiar with the VSCode UI. The HashiCorp Configuration Language (HCL) is supported natively with VSCode.</p></li>
+</ol>
+<h3 id="task-2-download-the-remote-ssh-extension">Task 2: Download the Remote-SSH Extension</h3>
+<ol style="list-style-type: decimal">
+<li>Install an OpenSSH compatible SSH client if one is not already present.
+<ul>
+<li>For Windows 10, follow <a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">these instructions from Microsoft</a>. Note: PuTTY is not supported on Windows since the ssh command must be in the path.</li>
+<li>For MacOS, OpenSSH should already be installed. Open a terminal window and run <code>ssh -V</code> to make sure.</li>
+</ul></li>
+<li>Install the <a href="https://aka.ms/vscode-remote/download/extension">Remote Development extension pack</a> for VSCode.</li>
+</ol>
+<h3 id="task-3-configure-ssh">Task 3: Configure SSH</h3>
+<ol style="list-style-type: decimal">
+<li><p>Create your local ssh config on your machine.</p>
+<p>Create an ssh config file in <code>~/.ssh/</code> or <code>c:\Program Files\Git\etc\ssh\</code> called <code>config</code> and add your workstation and user information. For example:</p>
+<pre class="text"><code class="highlight">Host 18.130.225.52
+    User terraform
+    HostName 18.130.225.52
+</code></pre>
+<p>Don't forget to change the IP address to the IP address of your workstation, and the <code>User</code> field to the correct username, both of which will be provided by your instructor.</p></li>
+<li><p>Mac or Linux only: Enable ControlMaster</p>
+<p>VSCode will need to make multiple SSH connections to your 
+workstation. This can mean that it will ask for your password for each 
+connection. To avoid this, you can enable ControlMaster. First, edit 
+your SSH config file:</p>
+<pre class="text"><code class="highlight">Host 18.130.225.52
+    User terraform
+    Hostname 18.130.225.52
+    ControlMaster auto
+    ControlPath  ~/.ssh/sockets/%r@%h-%p
+    ControlPersist  600        
+</code></pre>
+<p>Remember to update the IP address and username accordingly.</p>
+<p>Next, create the sockets directory by running this command:</p>
+<pre class="sh"><code class="highlight">mkdir -p ~/.ssh/sockets
+</code></pre></li>
+</ol>
+<p>Finally, if you're an expert SSH user, feel free to install your 
+public key on the workstation to enable password-free authentication.</p>
+<h3 id="task-4-connect-to-your-workstation-in-vscode">Task 4: Connect to your workstation in VSCode</h3>
+<ol style="list-style-type: decimal">
+<li>Using the command palette on the left side of the window, choose <code>Remote-SSH: Connect to Host...</code></li>
+<li>Choose the IP of your workstation and enter your password when prompted</li>
+<li>Open the explorer and choose <code>Open Folder</code></li>
+<li>Navigate to <code>/workstation/terraform/</code></li>
+<li>You can also launch a terminal from VSCode for remote command line execution with Ctrl+`</li>
+</ol>
+<h2 id="ssh">SSH</h2>
+<p>If you'd prefer to SSH directly into your workstation, you should 
+already be familiar with how to use SSH and either vim or nano.</p>
+<p>On Windows, use an SSH client such as PuTTY or OpenSSH. On a Linux or
+ Mac, use the Terminal and OpenSSH to connect to your workstation.</p>
+<ol style="list-style-type: decimal">
+<li><p>In a terminal window, run:</p>
+<pre class="text"><code class="highlight">ssh terraform@&lt;WORKSTATION_IP&gt;
+</code></pre>
+<p>Replacing <code>&lt;workstation_IP_address&gt;</code> with the IP address and <code>terraform</code> with the username provided by your instructor.</p></li>
+<li>Enter your workstation password to login.</li>
+<li>On your workstation, navigate to <code>/workstation/terraform</code>.</li>
+<li><p>The workstations have both vim and nano installed, so use whichever editor you're most comfortable with.</p></li>
+</ol>
+<h2 id="web-based-ssh-client">Web-based SSH Client</h2>
+<p>It's also possible that you can't, or would prefer not to, install 
+new software on your machine. In this case, you can use a web-based SSH 
+client that we've installed on your workstation.</p>
+<ol style="list-style-type: decimal">
+<li><p>Launch a web browser and enter:</p>
+<pre class="text"><code class="highlight">https://&lt;WORKSTATION_IP&gt;/wetty/ssh/terraform
+</code></pre>
+<p>Be sure to change the username from <code>terraform</code> to the one
+ provided by your instructor. You may get a security warning from your 
+browser, because the wetty client uses a self-signed SSL certificate. 
+It's safe to dismiss this warning.</p></li>
+<li>When you are prompted, enter the password provided by your instructor.</li>
+<li>On your workstation, navigate to <code>/workstation/terraform</code>.</li>
+<li><p>The workstations have both vim and nano installed, so use whichever editor you're most comfortable with.</p></li>
+</ol>
+<h1 id="lab-1-lab-setup">Lab 1: Lab Setup</h1>
+<p>Duration: 20 minutes</p>
+<ul>
+<li>Task 1: Connect to the Student Workstation</li>
+<li>Task 2: Verify Terraform installation</li>
+<li>Task 3: Generate your first Terraform Configuration</li>
+<li>Task 4: Use the Terraform CLI to Get Help</li>
+<li>Task 5: Apply and Update your Configuration</li>
+</ul>
+<h2 id="task-1-connect-to-the-student-workstation">Task 1: Connect to the Student Workstation</h2>
+<p>In the previous lab, you learned how to connect to your workstation with either VSCode, SSH, or the web-based client.</p>
+<p>One you've connected, make sure you've navigated to the <code>/workstation/terraform</code> directory. This is where we'll do all of our work for this training.</p>
+<h2 id="task-2-verify-terraform-installation">Task 2: Verify Terraform installation</h2>
+<h3 id="step-1.2.1">Step 1.2.1</h3>
+<p>Run the following command to check the Terraform version:</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform -version
+</code></pre></div></div></div>
+<p>You should see:</p>
+<pre class="text"><code class="highlight">Terraform v0.12.6
+</code></pre>
+<h2 id="task-3-generate-your-first-terraform-configuration">Task 3: Generate your first Terraform Configuration</h2>
+<h3 id="step-1.3.1">Step 1.3.1</h3>
+<p>In the /workstation/terraform directory, edit the file titled <code>main.tf</code> to create an AWS instance with the following properties available in the comments at the top of the file:</p>
+<ul>
+<li>ami</li>
+<li>subnet_id</li>
+<li>vpc_security_group_ids</li>
+<li>tags.Identity</li>
+</ul>
+<p>Your final <code>main.tf</code> file should look similar to this with different values:</p>
+<pre class="hcl"><code>provider "aws" {
+  access_key = "&lt;YOUR_ACCESSKEY&gt;"
+  secret_key = "&lt;YOUR_SECRETKEY&gt;"
+  region     = "&lt;REGION&gt;"
+}
+
+resource "aws_instance" "web" {
+  ami           = "&lt;AMI&gt;"
+  instance_type = "t2.micro"
+
+  subnet_id              = "&lt;SUBNET&gt;"
+  vpc_security_group_ids = ["&lt;SECURITY_GROUP&gt;"]
+
+  tags = {
+    "Identity" = "&lt;IDENTITY&gt;"
+  }
+}</code></pre>
+<p>Don't forget to save the file before moving on!</p>
+<h2 id="task-4-use-the-terraform-cli-to-get-help">Task 4: Use the Terraform CLI to Get Help</h2>
+<h3 id="step-1.4.1">Step 1.4.1</h3>
+<p>Execute the following command to display available commands:</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform -help
+</code></pre></div></div></div>
+<pre class="text"><code class="highlight">Usage: terraform [-version] [-help] &lt;command&gt; [args]
+
+The available commands for execution are listed below.
+The most common, useful commands are shown first, followed by
+less common or more advanced commands. If you're just getting
+started with Terraform, stick with the common commands. For the
+other commands, please read the help and docs before usage.
+
+Common commands:
+    apply              Builds or changes infrastructure
+    console            Interactive console for Terraform interpolations
+    destroy            Destroy Terraform-managed infrastructure
+    env                Workspace management
+    fmt                Rewrites config files to canonical format
+    get                Download and install modules for the configuration
+    graph              Create a visual graph of Terraform resources
+    import             Import existing infrastructure into Terraform
+    init               Initialize a Terraform working directory
+    output             Read an output from a state file
+    plan               Generate and show an execution plan
+
+    ...
+</code></pre>
+<ul>
+<li>(full output truncated for sake of brevity in this guide)</li>
+</ul>
+<p>Or, you can use short-hand:</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform -h
+</code></pre></div></div></div>
+<h3 id="step-1.4.2">Step 1.4.2</h3>
+<p>Navigate to the Terraform directory and initialize Terraform</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight"><span class="nb">cd</span> /workstation/terraform
+</code></pre></div></div></div>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform init
+</code></pre></div></div></div>
+<pre class="text"><code class="highlight">Initializing provider plugins...
+...
+
+Terraform has been successfully initialized!
+</code></pre>
+<h3 id="step-1.4.3">Step 1.4.3</h3>
+<p>Get help on the <code>plan</code> command and then run it:</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform -h plan
+</code></pre></div></div></div>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform plan
+</code></pre></div></div></div>
+<h2 id="task-5-apply-and-update-your-configuration">Task 5: Apply and Update your Configuration</h2>
+<h3 id="step-1.5.1">Step 1.5.1</h3>
+<p>Run the <code>terraform apply</code> command to generate real resources in AWS</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform apply
+</code></pre></div></div></div>
+<p>You will be prompted to confirm the changes before they're applied. Respond with <code>yes</code>.</p>
+<h3 id="step-1.5.2">Step 1.5.2</h3>
+<p>Use the <code>terraform show</code> command to view the resources created and find the IP address for your instance.</p>
+<p>Ping that address to ensure the instance is running.</p>
+<h3 id="step-1.5.3">Step 1.5.3</h3>
+<p>Terraform can perform in-place updates on your instances after changes are made to the <code>main.tf</code> configuration file.</p>
+<p>Add two tags to the AWS instance:</p>
+<ul>
+<li>Name</li>
+<li>Environment</li>
+</ul>
+<pre class="hcl"><code>  tags = {
+    "Identity"    = "..."
+    "Name"        = "Student"
+    "Environment" = "Training"
+  }</code></pre>
+<h3 id="step-1.5.4">Step 1.5.4</h3>
+<p>Plan and apply the changes you just made and note the output differences for additions, deletions, and in-place changes.</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform apply
+</code></pre></div></div></div>
+<p>You should see output indicating that <em>aws_instance.web</em> will be modified:</p>
+<pre class="text"><code class="highlight">...
+
+# aws_instance.web will be updated in-place
+~ resource "aws_instance" "web" {
+
+...
+</code></pre>
+<p>When prompted to apply the changes, respond with <code>yes</code>.</p>
+<h1 id="lab-2-outputs">Lab 2: Outputs</h1>
+<p>Duration: 10 minutes</p>
+<p>Outputs allow us to query for specific values rather than parse metadata in <code>terraform show</code>.</p>
+<ul>
+<li>Task 1: Create output variables in your configuration file</li>
+<li>Task 2: Use the output command to find specific variables</li>
+</ul>
+<h2 id="task-1-create-output-variables-in-your-configuration-file">Task 1: Create output variables in your configuration file</h2>
+<h3 id="step-2.1.1">Step 2.1.1</h3>
+<p>Create two new output variables named "public_dns" and "public_ip" to output the instance's public_dns and public_ip attributes</p>
+<pre class="hcl"><code>output "public_ip" {
+  value = aws_instance.web.public_ip
+}
+
+output "public_dns" {
+  value = aws_instance.web.public_dns
+}</code></pre>
+<h3 id="step-2.1.2">Step 2.1.2</h3>
+<p>Run the refresh command to pick up the new output</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform refresh
+</code></pre></div></div></div>
+<h2 id="task-2-use-the-output-command-to-find-specific-variables">Task 2: Use the output command to find specific variables</h2>
+<h3 id="step-2.2.1-try-the-terraform-output-command-with-no-specifications">Step 2.2.1 Try the terraform output command with no specifications</h3>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform output
+</code></pre></div></div></div>
+<h3 id="step-2.2.2-query-specifically-for-the-public_dns-attributes">Step 2.2.2 Query specifically for the public_dns attributes</h3>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform output public_dns
+</code></pre></div></div></div>
+<h3 id="step-2.2.3-wrap-an-output-query-to-ping-the-dns-record">Step 2.2.3 Wrap an output query to ping the DNS record</h3>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">ping <span class="k">$(</span>terraform output public_dns<span class="k">)</span>
+</code></pre></div></div></div>
+<h1 id="lab-3-terraform-console">Lab 3: Terraform Console</h1>
+<p>Duration: 10 minutes</p>
+<p>Terraform configurations and commands often use <a href="https://www.terraform.io/docs/configuration/expressions.html">expressions</a> like <code>aws_instance.web.ami</code> to reference Terraform resources and their attributes.</p>
+<p>Terraform includes an interactive console for evaluating expressions 
+against the current Terraform state. This is especially useful for 
+checking values while editing configurations.</p>
+<ul>
+<li>Task 1: Use <code>terraform console</code> to query specific instance information.</li>
+</ul>
+<h2 id="task-1-use-terraform-console-to-query-specific-instance-information.">Task 1: Use <code>terraform console</code> to query specific instance information.</h2>
+<h3 id="step-3.1.1">Step 3.1.1</h3>
+<p>Find the AMI ID of your instance</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform console
+</code></pre></div></div></div>
+<pre><code>&gt; aws_instance.web.ami
+ami-0f9cf087c1f27d9b1</code></pre>
+<p>Control+C exits the Terraform console</p>
+<h3 id="step-3.1.2">Step 3.1.2</h3>
+<p>You can also pipe query information to the stdin of the console for evaluation</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight"><span class="nb">echo</span> <span class="s2">"aws_instance.web.ami"</span> <span class="p">|</span> terraform console
+</code></pre></div></div></div>
+<pre><code>ami-0f9cf087c1f27d9b1</code></pre>
+<h1 id="lab-4-variables">Lab 4: Variables</h1>
+<p>Duration: 15 minutes</p>
+<p>We don't want to hard code all of our values in the main.tf file. We can create a variable file for easier use.</p>
+<ul>
+<li>Task 1: Create variables in a configuration block</li>
+<li>Task 2: Interpolate those variables</li>
+<li>Task 3: Create a terraform.tfvars file</li>
+</ul>
+<h2 id="task-1-create-a-new-configuration-block-for-variables">Task 1: Create a new configuration block for variables</h2>
+<h3 id="step-4.1.1">Step 4.1.1</h3>
+<p>Add three variables at the top of your configuration file:</p>
+<pre class="hcl"><code>variable "access_key" {}
+variable "secret_key" {}
+variable "region" {
+  default = "&lt;REGION&gt;"
+}</code></pre>
+<h2 id="task-2-interpolate-those-variables-into-your-existing-code">Task 2: Interpolate those variables into your existing code</h2>
+<h3 id="step-4.2.1">Step 4.2.1</h3>
+<p>Update the <em>provider</em> block to replace the hard-coded values with the new variables.</p>
+<pre class="hcl"><code>provider "aws" {
+  access_key = var.access_key
+  secret_key = var.secret_key
+  region     = var.region
+}</code></pre>
+<h3 id="step-4.2.2">Step 4.2.2</h3>
+<p>Rerun <code>terraform plan</code> for Terraform to pick up the new variables. Notice that you will be prompted for input now.</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform plan
+</code></pre></div></div></div>
+<pre class="text"><code class="highlight">var.access_key
+  Enter a value:
+</code></pre>
+<p>Use Ctrl+C to exit out of this plan.</p>
+<h2 id="task-3-edit-your-terraform.tfvars-file">Task 3: Edit your terraform.tfvars file</h2>
+<p>Variables only defined in the configuration file will be prompted for
+ input. We can avoid this by creating a variables file. You'll find a 
+file called <code>terraform.tfvars</code> in your Terraform directory with several commented lines.</p>
+<h3 id="step-4.3.1">Step 4.3.1</h3>
+<p>Edit the <code>terraform.tfvars</code> file by uncommenting the first two key-value pairs:</p>
+<pre><code>access_key = "&lt;ACCESSKEY&gt;"
+secret_key = "&lt;SECRETKEY&gt;"
+
+...</code></pre>
+<p>Rerun <code>terraform plan</code> and notice that this no longer prompts you for input.</p>
+<h3 id="step-4.3.2">Step 4.3.2</h3>
+<p>You'll see that there are several other values in <code>terraform.tfvars</code>. Uncomment them and add matching variables to your <code>main.tf</code> file:</p>
+<pre class="hcl"><code>variable "access_key" {}
+variable "secret_key" {}
+variable "region" {
+  default = "&lt;REGION&gt;"
+}
+variable "ami" {}
+variable "subnet_id" {}
+variable "identity" {}
+variable "vpc_security_group_ids" {
+  type = list
+}</code></pre>
+<h3 id="step-4.3.3">Step 4.3.3</h3>
+<p>Edit your resource block with these changes as well.</p>
+<pre class="hcl"><code>resource "aws_instance" "web" {
+  ami                    = var.ami
+  instance_type          = "t2.micro"
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = var.vpc_security_group_ids
+
+  tags = {
+    "Identity"    = var.identity
+    "Name"        = "Student"
+    "Environment" = "Training"
+  }
+}</code></pre>
+<p>After making these changes, rerun <code>terraform plan</code>. You 
+should see that there are no changes to apply, which is correct, since 
+the variables contain the same values we had previously hard-coded:</p>
+<pre class="text"><code class="highlight">...
+
+No changes. Infrastructure is up-to-date.
+
+This means that Terraform did not detect any differences between your
+configuration and real physical resources that exist. As a result, no
+actions need to be performed.
+</code></pre>
+<h1 id="lab-5-modules">Lab 5: Modules</h1>
+<p>Duration: 20 minutes</p>
+<p>Configuration files can be separated out into modules to better 
+organize your configuration. This makes your code easier to read and 
+reusable across your organization. You can also use the Public Module 
+Registry to find pre-configured modules.</p>
+<ul>
+<li>Task 1: Refactor your existing code into a local module</li>
+<li>Task 2: Explore the Pubic Module Registry and install a module</li>
+<li>Task 3: Refresh and rerun your Terraform configuration</li>
+</ul>
+<h2 id="task-1-refactor-your-existing-code-into-a-local-module">Task 1: Refactor your existing code into a local module</h2>
+<p>A Terraform module is just a set of configuration. For this lab, 
+we'll refactor your existing configuration so that the webserver 
+configuration is inside a module.</p>
+<h3 id="step-5.1.1">Step 5.1.1</h3>
+<p>Create a new directory called <code>server</code> in your <code>/workspace/terraform</code> directory and create a new file inside of it called <code>server.tf</code>.</p>
+<h3 id="step-5.1.2">Step 5.1.2</h3>
+<p>Edit the file <code>server/server.tf</code>, with the following contents:</p>
+<pre class="hcl"><code>variable ami {}
+variable subnet_id {}
+variable vpc_security_group_ids {
+  type = list
+}
+variable identity {}
+
+resource "aws_instance" "web" {
+  ami                    = var.ami
+  instance_type          = "t2.micro"
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = var.vpc_security_group_ids
+
+  tags = {
+    "Identity"    = var.identity
+    "Name"        = "Student"
+    "Environment" = "Training"
+  }
+}
+
+output "public_ip" {
+  value = aws_instance.web.public_ip
+}
+
+output "public_dns" {
+  value = aws_instance.web.public_dns
+}</code></pre>
+<h3 id="step-5.1.3">Step 5.1.3</h3>
+<p>In your root configuration (also called your root module) <code>/workspace/terraform/main.tf</code>, we can remove the previous references to your configuration and refactor them as a module.</p>
+<pre class="hcl"><code># Remove the entire block:
+#
+# resource "aws_instance" "web" {
+# ...
+# }
+
+module "server" {
+  source = "./server"
+
+  ami                    = var.ami
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = var.vpc_security_group_ids
+  identity               = var.identity
+}</code></pre>
+<p>Our outputs should be defined in the root module as well. At the bottom of your <code>main.tf</code>
+ configuration, modify the public IP and public DNS outputs to match the
+ following. Notice the difference in interpolation now that the 
+information is being delivered by a module.</p>
+<pre class="hcl"><code>output "public_ip" {
+  value = module.server.public_ip
+}
+
+output "public_dns" {
+  value = module.server.public_dns
+}</code></pre>
+<h3 id="step-5.1.4">Step 5.1.4</h3>
+<p>Now run <code>terraform get</code> or <code>terraform init</code> to install the module. Since we're just adding a module and no providers, <code>get</code> is sufficient, but <code>init</code> is safe to use too. Even local modules need to be installed before they can be used.</p>
+<p>Once you've done that, you can run <code>terraform apply</code> again. Notice that the the instance will be recreated, and its id changed, but everything else should remain the same.</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform apply
+</code></pre></div></div></div>
+<pre class="text"><code class="highlight"># aws_instance.web will be destroyed
+- resource "aws_instance" "web" {
+
+...
+
+# module.server.aws_instance.web will be created
++ resource "aws_instance" "web" {
+
+...
+</code></pre>
+<h2 id="task-2-explore-the-public-module-registry">Task 2: Explore the Public Module Registry</h2>
+<h3 id="step-5.2.1">Step 5.2.1</h3>
+<p>HashiCorp hosts a public module registry at: https://registry.terraform.io/</p>
+<p>The registry contains a large set of community-contributed modules 
+that you can use in your own configurations. Explore the registry to see
+ what is available to you.</p>
+<h3 id="step-5.2.2">Step 5.2.2</h3>
+<p>Search for "dynamic-keys" in the public registry and uncheck the 
+"Verified" checkbox. You should then see a module called "dynamic-keys" 
+created by one of HashiCorp's founders, Mitchell Hashimoto. 
+Alternatively, you can navigate directly to 
+https://registry.terraform.io/modules/mitchellh/dynamic-keys/aws/2.0.0.</p>
+<p>Select this module and read the content on the Readme, Inputs, 
+Outputs, and Resources tabs. This module will generate a public and 
+private key pair so you can SSH into your instance.</p>
+<h3 id="step-5.2.3">Step 5.2.3</h3>
+<p>To integrate this module into your configuration, add this after your provider block in <code>main.tf</code>:</p>
+<pre class="hcl"><code>module "keypair" {
+  source  = "mitchellh/dynamic-keys/aws"
+  version = "2.0.0"
+  path    = "${path.root}/keys"
+  name    = "${var.identity}-key"
+}</code></pre>
+<p><strong><strong>This module exposes the private key information in the Terraform state and should not be used in production!</strong></strong></p>
+<p>Now you're referring to the module, but Terraform will need to download the module source before using it. Run the command <code>terraform init</code> to download it.</p>
+<p>To provision the resources defined by the module, run <code>terraform apply</code>, and answer <code>yes</code> to the confirmation prompt.</p>
+<h3 id="step-5.2.4">Step 5.2.4</h3>
+<p>Now we'll use the <em>keypair</em> module to install a public key on our server. In <code>main.tf</code>, add the necessary output from our key module to our server module:</p>
+<pre class="hcl"><code>module "server" {
+  source = "./server"
+
+  ami                    = var.ami
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = var.vpc_security_group_ids
+  identity               = var.identity
+  key_name               = module.keypair.key_name
+  private_key            = module.keypair.private_key_pem
+}</code></pre>
+<h3 id="step-5.2.5">Step 5.2.5</h3>
+<p>In your <code>server/server.tf</code> file, add two new variables to the rest of the variables at the top of the file:</p>
+<pre class="hcl"><code>variable key_name {}
+variable private_key {}</code></pre>
+<p>Add the <em>key_name</em> variable to the <em>aws_instance</em> resource block in <code>server/server.tf</code>:</p>
+<pre class="hcl"><code>resource "aws_instance" "web" {
+  ami                    = var.ami
+  instance_type          = "t2.micro"
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = var.vpc_security_group_ids
+  key_name               = var.key_name
+
+  # ... leave the rest of the block unchanged
+}</code></pre>
+<p>We'll use the private_key variable later.</p>
+<h2 id="task-3-refresh-and-rerun-your-terraform-configuration">Task 3: Refresh and rerun your Terraform configuration</h2>
+<h3 id="step-5.3.1">Step 5.3.1</h3>
+<p>Rerun <code>terraform apply</code> to delete the original instance and recreate it once again. Now the public key will be installed on the new instance.</p>
+<p>It may take a few minutes for the old instance to be destroyed and 
+the new one crated. You might notice that both of these things happen in
+ parallel:</p>
+<pre><code>...
+
+aws_instance.web: Destroying... [id=i-00b20b227c41eca94]
+module.server.aws_instance.web: Creating...
+aws_instance.web: Still destroying... [id=i-00b20b227c41eca94, 10s elapsed]
+module.server.aws_instance.web: Still creating... [10s elapsed]
+
+...</code></pre>
+<p>Since there are no dependencies between the two, terraform can do 
+both operations at the same time. This does mean that while the apply is
+ still being run, both instances could exist at the same time, or 
+neither might.</p>
+<p>You'll also see that the outputs now include a list of (for now) one <em>public_dns</em> value and one <em>public_ip</em>:</p>
+<pre class="text"><code class="highlight">...
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+
+Outputs:
+
+public_dns = [
+  "ec2-54-184-51-90.us-west-2.compute.amazonaws.com",
+]
+public_ip = [
+  "54.184.51.90",
+]
+</code></pre>
+<p>When we moved the output configuration to the <em>server</em> module,
+ we changed the definition of these outputs to be lists. This is so that
+ we can update the module to create several instances at once in a 
+future lab.</p>
+<h1 id="lab-6-provisioners">Lab 6: Provisioners</h1>
+<p>Duration: 10 minutes</p>
+<p>Your workstation has code for provisioning the webapp onto the 
+instance we've created. In order for this code to be installed onto the,
+ Terraform can connect to and provision the instance remotely with a 
+provisioner block.</p>
+<ul>
+<li>Task 1: Create a connection block using your keypair module outputs.</li>
+<li>Task 2: Create a provisioner block to remotely download code to your instance.</li>
+<li>Task 3: Apply your configuration and watch for the remote connection.</li>
+</ul>
+<h2 id="task-1-create-a-connection-block-using-your-keypair-module-outputs.">Task 1: Create a connection block using your keypair module outputs.</h2>
+<h3 id="step-6.1.1">Step 6.1.1</h3>
+<p>In <code>server/server.tf</code>, add a connection block within your web instance resource under the tags:</p>
+<pre class="hcl"><code>resource "aws_instance" "web" {
+# Leave the first part of the block unchanged, and add a connection block:
+# ...
+
+  connection {
+    user        = "ubuntu"
+    private_key = var.private_key
+    host        = self.public_ip
+  }</code></pre>
+<p><strong>The <code>private_key</code> variable was defined in the previous lab.</strong></p>
+<p>The value of <code>self</code> refers to the resource defined by the current block. So <code>self.public_ip</code> refers to the public IP address of our <code>aws_instance.web</code>.</p>
+<h2 id="task-2-create-a-provisioner-block-to-remotely-download-code-to-your-instance.">Task 2: Create a provisioner block to remotely download code to your instance.</h2>
+<h3 id="step-6.2.1">Step 6.2.1</h3>
+<p>The file provisioner will run after the instance is created and will copy the contents of the <em>assets</em> directory to it. Add this to the <em>aws_instance</em> block in <code>server/server.tf</code>, right after the connection block you just added:</p>
+<pre class="hcl"><code>  provisioner "file" {
+    source      = "assets"
+    destination = "/tmp/"
+  }</code></pre>
+<h3 id="step-6.2.2">Step 6.2.2</h3>
+<p>The remote-exec provisioner runs remote commands. We can execute the script from our assets directory. Add this after the <em>file</em> provisioner block:</p>
+<pre class="hcl"><code>  provisioner "remote-exec" {
+    inline = [
+      "sudo sh /tmp/assets/setup-web.sh",
+    ]
+  }</code></pre>
+<p>Make sure both provisioners are inside the <em>aws_instance</em> resource block.</p>
+<h2 id="task-3-apply-your-configuration-and-watch-for-the-remote-connection.">Task 3: Apply your configuration and watch for the remote connection.</h2>
+<h3 id="step-6.3.1">Step 6.3.1</h3>
+<p>An important point to remember regarding <em>provisioners</em> is 
+that adding or removing them from an instance won't cause terraform to 
+update or recreate the instance. You can see this now if you run <code>terraform apply</code>:</p>
+<pre class="text"><code class="highlight">...
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+...
+</code></pre>
+<p>In order to ensure that the provisioners run, use the <code>terraform taint</code> command. A resource that has been marked as <em>tainted</em> will be destroyed and recreated.</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform taint module.server.aws_instance.web
+</code></pre></div></div></div>
+<pre><code>Resource instance module.server.aws_instance.web has been marked as tainted.</code></pre>
+<p>Upon running <code>terraform apply</code>, you should see new output:</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform apply
+</code></pre></div></div></div>
+<pre class="text"><code class="highlight">...
+module.server.aws_instance.web: Provisioning with 'remote-exec'...
+module.server.aws_instance.web (remote-exec): Connecting to remote host via SSH...
+module.server.aws_instance.web (remote-exec):   Host: 18.222.77.212
+module.server.aws_instance.web (remote-exec):   User: ubuntu
+module.server.aws_instance.web (remote-exec):   Password: false
+module.server.aws_instance.web (remote-exec):   Private key: true
+module.server.aws_instance.web (remote-exec):   SSH Agent: false
+module.server.aws_instance.web (remote-exec): Connected!
+module.server.aws_instance.web (remote-exec): Created symlink from /etc/systemd/system/multi-user.target.wants/webapp.service to /lib/systemd/system/webapp.service.
+module.server.aws_instance.web: Creation complete after 41s (ID: i-0a869f781ab03b248)
+
+Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
+...
+</code></pre>
+<p>You can now visit your web application by pointing your browser at 
+the public_dns output for your EC2 instance. If you want, you can also 
+ssh to your EC2 instance with a command like <code>ssh -i keys/&lt;your_private_key&gt;.pem ubuntu@&lt;your_dns&gt;</code>. Type yes when prompted to use the key. Type <code>exit</code> to quit the ssh session.</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">ssh -i keys/&lt;your_private_key&gt;.pem ubuntu@&lt;your_dns&gt;
+</code></pre></div></div></div>
+<pre class="text"><code class="highlight">The authenticity of host 'ec2-54-203-220-176.us-west-2.compute.amazonaws.com (54.203.220.176)' can't be established.
+ECDSA key fingerprint is SHA256:Q/IWQRIOcb1h46ic7mHR2oBCk9XOTPHCHQOy0A/pezs.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'ec2-54-203-220-176.us-west-2.compute.amazonaws.com,54.203.220.176' (ECDSA) to the list of known hosts.
+Welcome to Ubuntu 16.04.6 LTS (GNU/Linux 4.4.0-1088-aws x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+0 packages can be updated.
+0 updates are security updates.
+
+New release '18.04.2 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Fri Aug 16 20:58:44 2019 from 34.222.21.235
+ubuntu@ip-10-1-1-96:~$ exit
+logout
+Connection to ec2-54-203-220-176.us-west-2.compute.amazonaws.com closed.
+</code></pre>
+<h1 id="lab-7-terraform-graph">Lab 7: Terraform Graph</h1>
+<p>Duration: 5 minutes</p>
+<p>Terraform knows a lot about your configuration. We've already seen how to use <code>terraform show</code>
+ to output information about your resources. Terraform can also present 
+this data in DOT format, which is used by GraphVis and similar programs 
+to generate graphs.</p>
+<ul>
+<li>Task 1: Generate a graph against your current Terraform configuration</li>
+</ul>
+<h2 id="task-1">Task 1</h2>
+<h3 id="step-7.1.1">Step 7.1.1</h3>
+<p>Run <code>terraform graph</code> in your terraform directory and note the output.</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform graph
+</code></pre></div></div></div>
+<pre class="text"><code class="highlight">digraph {
+    compound = "true"
+    newrank = "true"
+    subgraph "root" {
+# ...
+  }
+}
+</code></pre>
+<h3 id="step-7.1.2">Step 7.1.2</h3>
+<p>Paste that output into <a href="http://www.webgraphviz.com/">webgraphviz</a> to get a visual representation of dependencies that Terraform creates for your configuration.</p>
+<h1 id="lab-8-meta-arguments">Lab 8: Meta-Arguments</h1>
+<p>Duration: 10 minutes</p>
+<p>So far, we've already used arguments to configure your resources. 
+These arguments are used by the provider to specify things like the AMI 
+to use, and the type of instance to provision. Terraform also supports a
+ number of <em>Meta-Arguments</em>, which changes the way Terraform 
+configures the resources. For instance, it's not uncommon to provision 
+multiple copies of the same resource. We can do that with the <em>count</em> argument.</p>
+<ul>
+<li>Task 1: Change the number of AWS instances with <code>count</code></li>
+<li>Task 2: Modify the rest of the configuration to support multiple instances</li>
+<li>Task 3: Add variable interpolation to the Name tag to count the new instance</li>
+</ul>
+<h2 id="task-1-change-the-number-of-aws-instances-with-count">Task 1: Change the number of AWS instances with <code>count</code></h2>
+<h3 id="step-8.1.1">Step 8.1.1</h3>
+<p>Add a count argument to the AWS instance in <code>server/server.tf</code> with a value of 2:</p>
+<pre class="hcl"><code># ...
+resource "aws_instance" "web" {
+  count                  = 2
+  ami                    = var.ami
+  instance_type          = "t2.micro"
+# ... leave the rest of the resource block unchanged...
+}</code></pre>
+<h2 id="task-2-modify-the-rest-of-the-configuration-to-support-multiple-instances">Task 2: Modify the rest of the configuration to support multiple instances</h2>
+<h3 id="step-8.2.1">Step 8.2.1</h3>
+<p>If you run <code>terraform apply</code> now, you'll get an error. Since we added <em>count</em> to the aws_instance.web resource, it now refers to multiple resources. Because of this, values like <code>aws_instance.web.public_ip</code> no longer refer to the public_ip of a single resource. We need to tell terraform which resource we're referring to.</p>
+<p>To do so, modify the output blocks in <code>server/server.tf</code> as follows:</p>
+<pre><code>output "public_ip" {
+  value = aws_instance.web[*].public_ip
+}
+
+output "public_dns" {
+  value = aws_instance.web[*].public_dns
+}</code></pre>
+<p>The syntax <code>aws_instance.web[*]</code> refers to all of the instances, so this will output a list of all of the public IPs and public DNS records.</p>
+<h3 id="step-8.2.2">Step 8.2.2</h3>
+<p>Run <code>terraform apply</code> to add the new instance. You should see two IP addresses and two DNS addresses in the outputs.</p>
+<h2 id="task-3-add-variable-interpolation-to-the-name-tag-to-count-the-new-instances">Task 3: Add variable interpolation to the Name tag to count the new instances</h2>
+<h3 id="step-8.3.1">Step 8.3.1</h3>
+<p>Interpolate the count variable by changing the Name tag to include the current count over the total count. Update <code>server/server.tf</code> to add a new variable definition, and use it:</p>
+<pre class="hcl"><code># ...
+variable private_key {}
+variable num_webs {
+  default = "2"
+}
+
+resource "aws_instance" "web" {
+  count                  = var.num_webs
+  ami                    = var.ami
+  instance_type          = "t2.micro"
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = var.vpc_security_group_ids
+  key_name               = var.key_name
+
+  tags = {
+    "Identity"    = var.identity
+    "Name"        = "Student ${count.index + 1}/${var.num_webs}"
+    "Environment" = "Training"
+  }
+
+# ...</code></pre>
+<p>The solution builds on our previous discussion of variables. We must 
+create a variable to hold our count so that we can reference that count 
+twice in our resource. Next, we replace the value of the count parameter
+ with the variable interpolation. Finally, we interpolate the current 
+count (+ 1 because it's zero-indexed) and the variable itself.</p>
+<h3 id="step-8.3.2">Step 8.3.2</h3>
+<p>Run <code>terraform apply</code> in the terraform directory. You should see the revised tags that count the instances in the apply log.</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform apply
+</code></pre></div></div></div>
+<h1 id="lab-9-data-source-optional">Lab 9: Data Source (Optional)</h1>
+<p>This is an optional lab that you can perform on your own at the end of the Terraform 101 course if you have time. It uses the <a href="https://www.terraform.io/docs/providers/aws/d/ami.html">aws_ami</a>
+ data source to fetch the same AMI that we have been using all along and
+ then makes the aws_instance web use that AMI. You can read about data 
+sources <a href="https://www.terraform.io/docs/configuration/data-sources.html">here</a>. An example of making an aws_instance resource use the AMI returned by an aws_ami data source is in the <a href="https://www.terraform.io/docs/providers/aws/r/instance.html">aws_instance</a> resource documentation.</p>
+<p>Duration: 10 minutes</p>
+<ul>
+<li>Task 1: Add an aws_ami data source</li>
+<li>Task 2: Make the aws_instance web use the AMI returned by the data source</li>
+</ul>
+<h2 id="task-1-add-an-aws_ami-data-source">Task 1: Add an aws_ami data source</h2>
+<h3 id="step-9.1.1">Step 9.1.1</h3>
+<p>Add an aws_ami data source called "ubuntu_16_04" in server/server.tf 
+after the variable definitions. It will find the most recent instance of
+ a Ubuntu 16.04 AMI from Canonical (owner ID 099720109477).</p>
+<pre class="hcl"><code>data "aws_ami" "ubuntu_16_04" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"]
+  }
+
+  owners = ["099720109477"]
+}</code></pre>
+<h2 id="task-2-make-the-aws_instance-use-the-returned-ami">Task 2: Make the aws_instance use the returned AMI</h2>
+<h3 id="step-9.2.1">Step 9.2.1</h3>
+<p>Edit the aws_instance in server/server.tf so that its ami argument uses the AMI returned by the data source.</p>
+<pre class="hcl"><code>resource "aws_instance" "web" {
+  count         = var.num_webs
+  ami           = data.aws_ami.ubuntu_16_04.image_id
+  instance_type = "t2.micro"
+#...
+}</code></pre>
+<h3 id="step-9.2.2">Step 9.2.2</h3>
+<p>Additionally, since we no longer need the ami variable, remove it or 
+comment it out (with initial "#") both in server/server.tf and in 
+main.tf. In the latter, remove or comment it out both in the variable 
+declaration itself and in the server module block. You can also comment 
+it out in terraform.tfvars.</p>
+<h3 id="step-9.2.3">Step 9.2.3</h3>
+<p>Run <code>terraform apply</code> one last time to apply the changes you made.</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform apply
+</code></pre></div></div></div>
+<h1 id="lab-10-destroy">Lab 10: Destroy</h1>
+<p>Duration: 5 minutes</p>
+<p>You've now learned about all of the key features of Terraform, and 
+how to use it to manage your infrastructure. The last command we'll use 
+is <code>terraform destroy</code>. As you might guess from the name, this will destroy all of the infrastructure managed by this configuration.</p>
+<ul>
+<li>Task 1: Destroy your infrastructure</li>
+</ul>
+<h2 id="task-1-destroy-your-infrastructure">Task 1: Destroy your infrastructure</h2>
+<h3 id="step-10.1.1">Step 10.1.1</h3>
+<p>Run the command <code>terraform destroy</code>:</p>
+<div class="window"><h1 class="titleInside">Execute</h1><div class="container"><div class="terminal"><pre class="shell"><code class="highlight">terraform destroy
+</code></pre></div></div></div>
+<pre class="text"><code class="highlight"># ...
+module.keypair.tls_private_key.generated: Refreshing state... [id=6dd9f3893ed2be3206ffc993bf7e1173f5d7db76]
+module.keypair.local_file.private_key_pem[0]: Refreshing state... [id=a10696fac0211b55ab3076a06e09d0820a57b9fa]
+module.keypair.local_file.public_key_openssh[0]: Refreshing state... [id=9b60deb2581eaf3e417a7a7001a460f088d0b917]
+module.keypair.null_resource.chmod[0]: Refreshing state... [id=6079893051072852963]
+module.keypair.aws_key_pair.generated: Refreshing state... [id=robin-training-env-ant-key]
+module.server.aws_instance.web[0]: Refreshing state... [id=i-05d32b2b6f6783ec7]
+module.server.aws_instance.web[1]: Refreshing state... [id=i-0f8ce7aec8e54199d]
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+ - destroy
+
+Terraform will perform the following actions:
+
+ # module.keypair.aws_key_pair.generated will be destroyed
+
+# ...
+
+Plan: 0 to add, 0 to change, 7 to destroy.
+
+Do you really want to destroy all resources?
+ Terraform will destroy all your managed infrastructure, as shown above.
+ There is no undo. Only 'yes' will be accepted to confirm.
+
+ Enter a value: yes
+
+module.keypair.null_resource.chmod[0]: Destroying... [id=6079893051072852963]
+module.keypair.null_resource.chmod[0]: Destruction complete after 0s
+module.keypair.local_file.public_key_openssh[0]: Destroying... [id=9b60deb2581eaf3e417a7a7001a460f088d0b917]
+
+# ...
+
+module.keypair.tls_private_key.generated: Destruction complete after 0s
+
+Destroy complete! Resources: 7 destroyed.
+</code></pre>
+<p>You'll need to confirm the action by responding with <code>yes</code>. You could achieve the same effect by removing all of your configuration and running <code>terraform apply</code>, but you often will want to keep the configuration, but not the infrastructure created by the configuration.</p>
+
+
+</body></html>
