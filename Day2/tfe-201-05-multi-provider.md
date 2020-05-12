@@ -77,7 +77,7 @@ See the [GitHub Provider](https://www.terraform.io/docs/providers/github/index.h
 # Configure the GitHub Provider
 provider "github" {
   token        = var.github_token
-  organization = "placeholder"
+  individual   = true
 }
 ```
 
