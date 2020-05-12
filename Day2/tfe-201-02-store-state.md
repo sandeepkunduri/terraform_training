@@ -193,6 +193,7 @@ In order to read from our `lab_2_write_state` workspace, we will need to setup a
 # read_state/main.tf
 data "terraform_remote_state" "write_state" {
   backend = "remote"
+  hostname = "gov.tfe.rocks"
 
   config = {
     organization = "<ORGANIZATION NAME>"
