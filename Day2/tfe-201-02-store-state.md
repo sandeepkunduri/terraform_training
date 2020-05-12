@@ -168,6 +168,7 @@ Just as we did in Step 2.2.2, we need to setup our configuration to use the `rem
 # read_state/main.tf
 terraform {
   backend "remote" {
+    hostname = "gov.tfe.rocks"
     organization = "<ORGANIZATION NAME>"
 
     workspaces {
