@@ -93,7 +93,7 @@ Setup the configuration to utilize the `remote` backend, replacing `ORGANIZATION
 # write_state/main.tf
 terraform {
   backend "remote" {
-    address = "https://gov.tfe.rocks"
+    hostname = "gov.tfe.rocks"
     organization = "<ORGANIZATION NAME>"
 
     workspaces {
