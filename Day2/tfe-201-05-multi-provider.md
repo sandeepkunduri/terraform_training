@@ -39,14 +39,13 @@ Copy the resulting token and save it to a secure location.
 The cloned course demo is already on your workstation from a previous lab:
 
 ```shell
-cd ~/demo-terraform-101
-git checkout -t origin/after-tfc
+cd /workstation/terraform-201
 ```
 
 The code for this lab is in the `05-multi-provider` directory.
 
 ```shell
-cd 05-multi-provider
+cd 9-multi-provider
 ```
 
 ### Step 5.1.3: Configure the initial code
