@@ -1,4 +1,4 @@
-# Lab 16: Null Resource
+# Lab 1: Null Resource
 
 Duration: 15 minutes
 
@@ -59,7 +59,7 @@ After the infrastructure has completed its buildout, re-run a plan and apply and
 terraform apply
 ```
 
-Run `apply` a few times to see the `null_resource` trigger a `yum update` on the VM after every run.
+Run `apply` a few times to see the `null_resource`.
 
 ### Step 16.2.3: Destroy
 Finally, run `destroy`.
