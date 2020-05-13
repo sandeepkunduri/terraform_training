@@ -50,7 +50,24 @@ Create a new json file called `web-vistors.json` with the following builder.
 
 ```
 
+##### [Variables](https://www.packer.io/docs/templates/user-variables.html)
+* User variables allow your templates to be further configured with variables from the command-line, environment variables, Vault, or files.
+    * **Note**: these can be definied within the main JSON file and also be passed from an additional variable file, we will cover how to pass those variables further below
+    
+    
+##### [Provisioners](https://www.packer.io/docs/provisioners/index.html)
+* use builtin and third-party software to install and configure the machine image after booting. Provisioners prepare the system for use, so common use cases for provisioners include:
+    * installing packages 
+    * patching 
+    * creating users 
+    * downloading application code
+    
+   
+##### Running Packer
+Once the file is ready we will need to dothe following steps...
 
+1. **packer validate web-vistors.json** - If properly formatted the file will successfully validate
+    * This command will work just fine if all the variables are within the main packer file, but if you want to pass user variables from a different file the command will have an additional flag **packer validate web-vistors.json**
 
 Validate your configuration.
 
@@ -58,14 +75,10 @@ Validate your configuration.
 > packer validate web-vistors.json
 ```
 
-##### Running Packer
-Once the file is ready we will need to dothe following steps...
+```shell
+> packer build web-vistors.json
+```
 
-1. **packer validate web-vistors.json** - If properly formatted the file will successfully validate
-    * This command will work just fine if all the variables are within the main packer file, but if you want to pass user variables from a different file the command will have an additional flag **packer validate web-vistors.json**
-
-
-   
 ##### Resources
 * Packer [Docs](https://www.packer.io/docs/index.html)
 * Packer [CLI](https://www.packer.io/docs/commands/index.html)
