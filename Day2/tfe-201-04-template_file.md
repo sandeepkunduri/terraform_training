@@ -167,7 +167,7 @@ replacing `<animal>` with the animal name from your workstation:
 
 ```bash
 variable "owner_id" {
-  default = "tf-201-training-<animal>"
+  default = "terraform-training-<animal>"
 }
 ```
 
