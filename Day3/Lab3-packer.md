@@ -10,7 +10,7 @@ To build an image packer utilizes a JSON file with the following sections...
 * responsible for creating machines and generating images from them for various platforms.
 * You can have multiple builder types in one file.
 
-Below is an example of a basic builder from a vsphere-clone
+Below is an example of a basic builder for AWS EBS AMI.
 Create a new json file called `web-vistors.json` with the following builder.
 
 ```json
@@ -49,6 +49,9 @@ Create a new json file called `web-vistors.json` with the following builder.
 }
 
 ```
+
+
+
 Validate your configuration.
 
 ```shell
