@@ -1,4 +1,4 @@
-# Terraform Enteprise Labs - VMWare
+# Terraform Enteprise Labs
 
-Labs associated with the Implementation Services TAP for TFE focused on VMware.
+Labs associated with the Implementation Services TAP for TFE.
 
