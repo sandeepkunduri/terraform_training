@@ -26,7 +26,6 @@ resource "aws_instance" "web" {
   instance_type          = "t2.micro"
   subnet_id              = var.subnet_id
   vpc_security_group_ids = var.vpc_security_group_ids
-  key_name               = var.key_name
   count                  = var.web_count
 
   tags = {
@@ -67,6 +66,18 @@ module "server" {
   vpc_security_group_ids = var.vpc_security_group_ids
   identity               = var.identity
   web_count              = var.web_count
+}
+```
+
+In your `app-web-modules` folder create a `variables.tf` file with the following contents:
+
+```hcl
+variable "ami" {}
+variable "web_count" {}
+variable "subnet_id" {}
+variable "identity" {}
+variable "vpc_security_group_ids" {
+  type = list
 }
 ```
 
