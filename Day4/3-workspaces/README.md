@@ -61,8 +61,9 @@ output "names" {
 }
 ```
 
-Commit the changes:
+Commit the changes through the GitHub UI.
 
+*Optional to do this through a CLI.*
 ```sh
 git add *
 git commit -m "My First Workspace"
