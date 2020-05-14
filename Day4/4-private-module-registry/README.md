@@ -51,7 +51,7 @@ Commit the changes into GitHub.
 
 Back in your `ptfe-workspace` repository created earlier.
 
-Add a new folder called `app-web-modules`.
+Add a new folder called `app-web-modules/`.
 
 Create a single `main.tf` file with the following contents:
 

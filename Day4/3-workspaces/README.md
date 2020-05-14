@@ -38,7 +38,7 @@ In the repository section:
 
 ### [Local] Update your repository
 
-In your repository, create a folder called "first-workspace" and then create a `main.tf` file with the following contents:
+In your repository, create a folder called "first-workspace/" and then create a `main.tf` file with the following contents:
 
 ```hcl
 variable "name_count" {
@@ -169,6 +169,7 @@ ami                    = ami-03e33c1cefd1d3d74
 subnet_id              = subnet-0a5e93f323f7f9138
 identity               = terraform-training-ant
 vpc_security_group_ids = ["sg-02713b4780094ac55"]
+web_count              = 2
 ```
 
 ![](img/tfe-wrkspace-vars.png)
