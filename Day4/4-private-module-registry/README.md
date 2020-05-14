@@ -8,103 +8,69 @@ In this challenge you will register a module with your Private Module Registry t
 
 ### Create a Module Repository
 
-Create a new GitHub repository, similar to early labs, with the name "terraform-vsphere-vm".
+Create a new GitHub repository, similar to early labs, with the name "terraform-aws-server".
 
 Create a single `main.tf` with the following contents:
 
 ```hcl
-variable "datacenter_name" {}
-variable "cluster_name" {}
-variable "datastore_name" {}
-variable "network_name" {}
-variable "virtual_machine_name" {}
-
-data "vsphere_datacenter" "dc" {
-  name = var.datacenter_name
+variable ami {}
+variable subnet_id {}
+variable vpc_security_group_ids {
+  type = list
 }
+variable identity {}
+variable web_count {}
 
-data "vsphere_compute_cluster" "cluster" {
-  name          = var.cluster_name
-  datacenter_id = data.vsphere_datacenter.dc.id
-}
+resource "aws_instance" "web" {
+  ami                    = var.ami
+  instance_type          = "t2.micro"
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = var.vpc_security_group_ids
+  key_name               = var.key_name
+  count                  = var.web_count
 
-data "vsphere_datastore" "datastore" {
-  name          = var.datastore_name
-  datacenter_id = data.vsphere_datacenter.dc.id
-}
-
-data "vsphere_network" "network" {
-  name          = var.network_name
-  datacenter_id = data.vsphere_datacenter.dc.id
-}
-
-resource "vsphere_virtual_machine" "vm" {
-  name             = var.virtual_machine_name
-  resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
-  datastore_id     = data.vsphere_datastore.datastore.id
-  num_cpus         = 2
-  memory           = 1024
-  guest_id         = "other3xLinux64Guest"
-
-  network_interface {
-    network_id = data.vsphere_network.network.id
+  tags = {
+    "Identity"    = var.identity
+    "Name"        = "Student"
+    "Environment" = "Training"
   }
+}
 
-  wait_for_guest_net_timeout = 0
+output "public_ip" {
+  value = aws_instance.web.*.public_ip
+}
 
-  disk {
-    label = "disk0"
-    size  = 20
-  }
+output "public_dns" {
+  value = aws_instance.web.*.public_dns
 }
 ```
 
-Commit the changes:
-
-```sh
-git add *
-git commit -m "My First Module"
-git push origin master
-```
+Commit the changes into GitHub.
 
 ### Update github repository
 
 Back in your `ptfe-workspace` repository created earlier.
 
-Add a new folder called `app-vm-dev-modules`.
+Add a new folder called `app-web-modules`.
 
 Create a single `main.tf` file with the following contents:
 
 ```hcl
-# Provider Credentials can be loaded via
-# export VSPHERE_SERVER=""
-# export VSPHERE_USER=""
-# export VSPHERE_PASSWORD=""
-provider "vsphere" {
-  allow_unverified_ssl = true
+provider "aws" {
 }
 
-locals {
-  datacenter_name      = "Datacenter"
-  cluster_name         = "East"
-  datastore_name       = "<DATASTORE_NAME>"
-  network_name         = "VM Network"
-  virtual_machine_name = "<VM_NAME>"
-}
+module "server" {
+  source = "gov.tfe.rocks/YOUR_ORG_NAME/server/aws"
 
-module "vm" {
-  source  = "TFE_HOSTNAME/YOUR_ORG_NAME/vm/vsphere"
-  version = "0.0.1"
-
-  datacenter_name      = local.datacenter_name
-  cluster_name         = local.cluster_name
-  datastore_name       = local.datastore_name
-  network_name         = local.network_name
-  virtual_machine_name = local.virtual_machine_name
+  ami                    = var.ami
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = var.vpc_security_group_ids
+  identity               = var.identity
+  web_count              = var.web_count
 }
 ```
 
-Update the local variables and the `source` argument on the module declaration to your hostname and organization.
+Update the `source` argument on the module declaration to your TFE hostname and organization.
 
 Commit the file and check the code into github.
 
@@ -112,7 +78,7 @@ Commit the file and check the code into github.
 
 Create a TFE workspace that uses the VSC connection to load your repository.
 
-Select the repository and name the workspace "ptfe-workspace-modules" and select the working directory as "/app-vm-dev-modules".
+Select the repository and name the workspace "ptfe-workspace-modules" and select the working directory as "/app-web-modules".
 
 ![](img/tfe-new-workspace.png)
 
@@ -124,7 +90,7 @@ Navigate back to Terraform Enterprise and click the "Modules" menu at the top of
 
 ![](img/tfe-add-module.png)
 
-Select the repository you created above ("terraform-vsphere-vm").
+Select the repository you created above ("terraform-aws-server").
 
 ![](img/tfe-select-module-repo.png)
 
@@ -151,12 +117,23 @@ git push origin v0.0.1
 
 Navigate back to your "ptfe-workspace-modules" workspace.
 
+Set Environment and Terraform Variables for your aws provider (be sure check the 'sensitive' checkbox to hide the password):
 
-Set Environment Variables for your VSphere provider (be sure check the 'sensitive' checkbox to hide the password):
+Enter the following into the Variables section.  Your values will differ, but use those values that were in your `terraform.tfvars` file from previous labs.
 
-- VSPHERE_SERVER
-- VSPHERE_USER
-- VSPHERE_PASSWORD
+```sh
+ami                    = ami-03e33c1cefd1d3d74
+subnet_id              = subnet-0a5e93f323f7f9138
+identity               = terraform-training-ant
+vpc_security_group_ids = ["sg-02713b4780094ac55"]
+web_count              = 2
+```
+
+Enter the following into the Environment Variables section:
+
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- AWS_DEFAULT_REGION
 
 ### Run a Plan
 
@@ -177,7 +154,6 @@ Watch the apply progress and complete.
 ## Extra Credit
 
 1. Make a change to a module repository and tag it in such a way that the change shows in your Private Module Registry.
-2. Extra workspace locals into Terraform Variables.
 
 ## Clean Up (if you ran apply)
 

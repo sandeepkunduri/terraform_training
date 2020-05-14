@@ -152,11 +152,14 @@ Create another workspace, similar to above, with the following changes:
 Enter the following into the Variables section.  Your values will differ, but use those values that were in your `terraform.tfvars` file from previous labs.
 
 ```sh
-ami                    = "ami-03e33c1cefd1d3d74"
-subnet_id              = "subnet-0a5e93f323f7f9138"
-identity               = "terraform-training-ant"
+ami                    = ami-03e33c1cefd1d3d74
+subnet_id              = subnet-0a5e93f323f7f9138
+identity               = terraform-training-ant
 vpc_security_group_ids = ["sg-02713b4780094ac55"]
 ```
+
+![](img/tfe-wrkspace-vars.png)
+
 
 ### [TFE] Add Environment Variables
 
@@ -178,7 +181,7 @@ Queue another plan, if all looks good, Apply!
 
 ### [TFE] Destroy
 
-In your 'app-vm-dev' Workspace, navigate to the Variables page.
+In your 'app-web' Workspace, navigate to the Variables page.
 
 Add a new Environment Variable: "CONFIRM_DESTROY = 1"
 
