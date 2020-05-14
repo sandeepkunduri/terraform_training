@@ -115,72 +115,28 @@ Verify the outputs are as expected.
 
 ### [Local] Update your Repository
 
-In your repository, create a folder called "app-vm-dev" and then create a `main.tf` file with the following contents (be sure to update the DATASTORE_NAME and VM_NAME):
+In your repository, create a folder called "app-web" and then create a `main.tf` file with the following contents:
 
 ```hcl
-# Provider Credentials can be loaded via
-# export VSPHERE_SERVER=""
-# export VSPHERE_USER=""
-# export VSPHERE_PASSWORD=""
-provider "vsphere" {
-  allow_unverified_ssl = true
+
+provider "aws" {
 }
 
-locals {
-  datacenter_name      = "Datacenter"
-  cluster_name         = "East"
-  datastore_name       = "<DATASTORE_NAME>"
-  network_name         = "VM Network"
-  virtual_machine_name = "<VM_NAME>"
-}
+resource "aws_instance" "web" {
+  ami                    = var.ami
+  instance_type          = "t2.micro"
+  subnet_id              = var.subnet_id
+  vpc_security_group_ids = var.vpc_security_group_ids
 
-data "vsphere_datacenter" "dc" {
-  name = local.datacenter_name
-}
-
-data "vsphere_compute_cluster" "cluster" {
-  name          = local.cluster_name
-  datacenter_id = data.vsphere_datacenter.dc.id
-}
-
-data "vsphere_datastore" "datastore" {
-  name          = local.datastore_name
-  datacenter_id = data.vsphere_datacenter.dc.id
-}
-
-data "vsphere_network" "network" {
-  name          = local.network_name
-  datacenter_id = data.vsphere_datacenter.dc.id
-}
-
-resource "vsphere_virtual_machine" "vm" {
-  name             = local.virtual_machine_name
-  resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
-  datastore_id     = data.vsphere_datastore.datastore.id
-  num_cpus         = 2
-  memory           = 1024
-  guest_id         = "other3xLinux64Guest"
-
-  network_interface {
-    network_id = data.vsphere_network.network.id
-  }
-
-  wait_for_guest_net_timeout = 0
-
-  disk {
-    label = "disk0"
-    size  = 20
+  tags = {
+    "Identity"    = var.identity
+    "Name"        = "Student"
+    "Environment" = "Training"
   }
 }
 ```
 
-Commit the changes:
-
-```sh
-git add *
-git commit -m "VSphere Workspace"
-git push origin master
-```
+Commit the changes in GitHub.
 
 ### [TFE] Create a Workspace
 
@@ -188,21 +144,31 @@ Login to TFE and click the "+ New Workspace" button.
 
 Create another workspace, similar to above, with the following changes:
 
-* Name the workspace "app-vm-dev"
+* Name the workspace "app-web"
 * Use the same repository (ptfe-workspace)
-* Point the workspace to the repository working directory of `/app-vm-dev`
+* Point the workspace to the repository working directory of `/app-web`
+
+### [TFE] Add Variables
+Enter the following into the Variables section.  Your values will differ, but use those values that were in your `terraform.tfvars` file from previous labs.
+
+```sh
+ami                    = "ami-03e33c1cefd1d3d74"
+subnet_id              = "subnet-0a5e93f323f7f9138"
+identity               = "terraform-training-ant"
+vpc_security_group_ids = ["sg-02713b4780094ac55"]
+```
 
 ### [TFE] Add Environment Variables
 
 Enter the following into the Environment Variables section:
 
 ```sh
-VSPHERE_SERVER=
-VSPHERE_USER=
-VSPHERE_PASSWORD=
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=
 ```
 
-> For the password environment variable, be sure to check the box "sensitive".
+> For the AWS_SECRET_ACCESS_KEY environment variable, be sure to check the box "sensitive".
 
 ![](img/tfe-env-vars.png)
 
@@ -226,10 +192,6 @@ Click the "Queue destroy plan" to queue a destructive plan.
 
 If the destroy plan looks good, apply it.
 
-### Extra Credit
-
-1. Extract the `local` variables to Terraform variables.
-2. Set the workspace variable assignments to the newly created Terraform variables.
 
 ## Resources
 
