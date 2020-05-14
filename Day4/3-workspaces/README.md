@@ -115,10 +115,9 @@ Verify the outputs are as expected.
 
 ### [Local] Update your Repository
 
-In your repository, create a folder called "app-web" and then create a `main.tf` file with the following contents:
+In your repository, create a folder called `app-web` and then create a `main.tf` file with the following contents:
 
 ```hcl
-
 provider "aws" {
 }
 
@@ -135,6 +134,19 @@ resource "aws_instance" "web" {
   }
 }
 ```
+Commit the changes in GitHub.
+
+In your `app-web` folder create a `variables.tf` file with the following contents:
+
+```hcl
+variable "ami" {}
+variable "web_count" {}
+variable "subnet_id" {}
+variable "identity" {}
+variable "vpc_security_group_ids" {
+  type = list
+}
+```
 
 Commit the changes in GitHub.
 
@@ -144,7 +156,7 @@ Login to TFE and click the "+ New Workspace" button.
 
 Create another workspace, similar to above, with the following changes:
 
-* Name the workspace "app-web"
+* Name the workspace `app-web`
 * Use the same repository (ptfe-workspace)
 * Point the workspace to the repository working directory of `/app-web`
 
