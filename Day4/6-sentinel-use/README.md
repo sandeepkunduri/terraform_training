@@ -51,22 +51,25 @@ Click "Create new policy"
 
 Create the following policy:
 
-__Policy Name:__ RestrictCpuAndMemory
+__Policy Name:__ RequireMandatoryTags
 
-__Description:__ Policy limiting compute consumption
+__Description:__ Policy Enforcing Mandatory Tags
 
 __Policy Enforcement:__ advisory (logging only)
 
 __Policy Code:__
 
 ```hcl
-# This policy uses the Sentinel tfplan import to require that
-# all VMware VMs obey CPU and memory limits
+# This policy uses the Sentinel tfplan import to require that all EC2 instances
+# have all mandatory tags.
+
+# Note that the comparison is case-sensitive since AWS tags are case-sensitive.
 
 ##### Imports #####
 
 import "tfplan"
 import "strings"
+import "types"
 
 ##### Functions #####
 
@@ -101,9 +104,9 @@ find_resources_from_plan = func(type) {
   return resources
 }
 
-# Validate that all instances of a specified resource type being modified have
-# a specified top-level attribute with a value less than or equal to a max value
-validate_attribute_less_than_value = func(type, attribute, max_value) {
+# Validate that all instances of specified type have a specified top-level
+# attribute that contains all members of a given list
+validate_attribute_contains_list = func(type, attribute, required_values) {
 
   validated = true
 
@@ -122,44 +125,60 @@ validate_attribute_less_than_value = func(type, attribute, max_value) {
     }
 
     # Determine if the attribute is computed
-    if r.diff[attribute].computed else false is true {
+    # We check "attribute.%" and "attribute.#" because an
+    # attribute of type map or list won't show up in the diff
+    if (r.diff[attribute + ".%"].computed else false) or
+       (r.diff[attribute + ".#"].computed else false) {
       print("Resource", address, "has attribute", attribute,
             "that is computed.")
       # If you want computed values to cause the policy to fail,
       # uncomment the next line.
       # validated = false
     } else {
-      # Validate that the attribute exists
-      if r.applied[attribute] else null is not null {
-        # Validate that each instance has desired value
-        if float(r.applied[attribute]) > max_value {
-          print("Resource", address, "has attribute", attribute, "with value",
-                r.applied[attribute],"that is bigger than the maximum allowed",
-                "value:", max_value)
-          validated = false
-        }
+      # Validate that the attribute is a list or a map
+      # but first check if r.applied[attribute] exists
+      if r.applied[attribute] else null is not null and
+         (types.type_of(r.applied[attribute]) is "list" or
+          types.type_of(r.applied[attribute]) is "map") {
+
+        # Evaluate each member of required_values list
+        for required_values as rv {
+          if r.applied[attribute] not contains rv {
+            print("Resource", address, "has attribute", attribute,
+                  "that is missing required value", rv, "from the list:",
+                  required_values)
+            validated = false
+          } // end rv
+        } // end required_values
+
       } else {
-        # The attribute did not exist
-        print("Resource", address, "is missing attribute", attribute)
+        print("Resource", address, "is missing attribute", attribute,
+              "or it is not a list or a map")
         validated = false
-      } // end attribute exists check
+      } // end check that attribute is list or map
 
     } // end computed check
-
   } // end resource instances
 
   return validated
 }
 
-##### Rules #####
+### List of mandatory tags ###
+mandatory_tags = [
+  "Name",
+  "ttl",
+  "owner",
+]
 
-# Call the validation functions
-valid_cpu = validate_attribute_less_than_value("vsphere_virtual_machine", "num_cpus", 1)
-valid_memory = validate_attribute_less_than_value("vsphere_virtual_machine", "memory", 512)
+### Rules ###
 
-# Main rule
+# Call the validation function
+tags_validated = validate_attribute_contains_list("aws_instance",
+                 "tags", mandatory_tags)
+
+#Main rule
 main = rule {
-  valid_cpu and valid_memory
+  tags_validated
 }
 ```
 
@@ -169,7 +188,7 @@ __Policy Sets__: Select the Policy Set we just created "GlobalWorkspacePolicies"
 
 > Note: be sure to discard any existing plans.
 
-Navigate to your "app-vm-dev" and queue a plan.
+Navigate to your "app-web" and queue a plan.
 
 ### Review the Plan
 
@@ -197,7 +216,7 @@ This time the the run fails due to the hard enforcement.
 
 ## Advanced areas to explore
 
-1. Write another Sentinel Policy restricting VM disk size.
+1. Write another Sentinel Policy restricting availablity zones to launch EC2 instances.
 
 ## Resources
 
