@@ -22,6 +22,9 @@ Create a directory for the Terraform configuration. Create a sub-directory for t
 
 ```shell
 mkdir -p ~/lab_4_s3-demo/templates && cd $_
+
+(Optional)
+mkdir -p /workstation/terraform/lab_4_s3-demo/templates && cd $_
 ```
 
 ```shell
