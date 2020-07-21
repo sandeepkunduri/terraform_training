@@ -21,12 +21,6 @@ You'll create an S3 bucket and then attach the necessary permissions to your use
 Create a directory for the Terraform configuration. Create a sub-directory for templates. Create a template file.
 
 ```shell
-<<<<<<< HEAD
-=======
-mkdir -p ~/lab_4_s3-demo/templates && cd $_
-
-(Optional)
->>>>>>> 42b012054b41e16a0050becbb477c6bac25f8540
 mkdir -p /workstation/terraform/lab_4_s3-demo/templates && cd $_
 ```
 
