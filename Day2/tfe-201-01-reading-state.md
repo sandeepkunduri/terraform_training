@@ -22,7 +22,7 @@ In this step, you'll create a Terraform project on disk that does nothing but em
 The project should consist of a single file which can be named something like `primary/main.tf`.
 
 ```shell
-mkdir -p ~/lab_1_read_state_demo/primary && cd $_
+mkdir -p /workstation/terraform/lab_1_read_state_demo/primary && cd $_
 ```
 
 ```shell
@@ -61,7 +61,7 @@ Create a new Terraform configuration that uses a data source to read the configu
 Create a second directory named `secondary`.
 
 ```shell
-mkdir ~/lab_1_read_state_demo/secondary && cd $_
+mkdir /workstation/terraform/lab_1_read_state_demo/secondary && cd $_
 ```
 
 ```shell
@@ -91,7 +91,7 @@ terraform init
 
 Declare the `public_ip` as an `output`.
 
-Within `~/lab_1_read_state_demo/secondary/main.tf`, define an output whose value is the `public_ip` from the data source you just defined.
+Within `/workstation/terraform/lab_1_read_state_demo/secondary/main.tf`, define an output whose value is the `public_ip` from the data source you just defined.
 
 ```bash
 output "primary_public_ip" {

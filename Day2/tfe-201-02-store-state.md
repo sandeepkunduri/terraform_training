@@ -78,7 +78,7 @@ For this task, you'll create a Terraform project which stores its state in Terra
 In this step, you'll create the project and a configuration.
 
 ```shell
-mkdir -p ~/lab_2_cloud_state_demo/write_state && cd $_
+mkdir -p /workstation/terraform/lab_2_cloud_state_demo/write_state && cd $_
 ```
 
 ```shell
@@ -153,7 +153,7 @@ Now that we have our state stored in Terraform Cloud in our `lab_2_write_state` 
 Start by creating a new directory and `main.tf` file:
 
 ```shell
-mkdir -p ~/lab_2_cloud_state_demo/read_state && cd $_
+mkdir -p /workstation/terraform/lab_2_cloud_state_demo/read_state && cd $_
 ```
 
 ```shell

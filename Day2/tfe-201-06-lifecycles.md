@@ -31,7 +31,7 @@ You'll solve this situation by using `create_before_destroy` to create the new s
 Start by creating a new directory and `main.tf` to house the new configuration.
 
 ```shell
-mkdir ~/lab_6_lifecycle_demo && cd $_
+mkdir /workstation/terraform/lab_6_lifecycle_demo && cd $_
 ```
 
 ```shell

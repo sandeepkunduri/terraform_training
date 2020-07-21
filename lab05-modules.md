@@ -230,12 +230,8 @@ Apply complete! Resources: 1 added, 0 changed, 1 destroyed.
 
 Outputs:
 
-public_dns = [
-  "ec2-54-184-51-90.us-west-2.compute.amazonaws.com",
-]
-public_ip = [
-  "54.184.51.90",
-]
+public_dns = ec2-54-184-51-90.us-west-2.compute.amazonaws.com
+public_ip = 54.184.51.90
 ```
 
 When we moved the output configuration to the _server_ module, we changed the

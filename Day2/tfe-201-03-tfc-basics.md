@@ -31,7 +31,7 @@ Visit this GitHub repository and fork it so you have a copy in your own GitHub a
 Optionally, clone the repository to your local machine (if you prefer to edit code locally instead of in the browser).
 
 ```shell
-cd ~
+cd /workstation/terraform
 git clone https://github.com/$USER/demo-terraform-101.git
 ```
 
