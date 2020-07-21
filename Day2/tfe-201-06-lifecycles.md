@@ -36,12 +36,16 @@ mkdir /workstation/terraform/lab_6_lifecycle_demo && cd $_
 
 ```shell
 touch main.tf
+touch variables.tf
+touch main.tf
 ```
 
 Create an S3 security group and an instance that uses it.
 
 ```bash
-provider "aws" {}
+provider "aws" {
+  region = var.region
+}
 
 resource "aws_security_group" "training" {
   name_prefix = "demo"
@@ -80,6 +84,33 @@ terraform init
 
 ```shell
 terraform apply -auto-approve
+```
+
+Update outputs.tf file
+```hcl
+output "security_group_name" {
+  value = aws_security_group.training.name
+}
+
+output "security_group_id" {
+  value = aws_security_group.training.id
+}
+
+output "web_server_name" {
+  value = aws_instance.web.tags.name
+}
+
+output "web_server_id" {
+  value = aws_instance.web.id
+}
+```
+
+Update variables.tf file
+```hcl
+variable region {
+  default     = "us-east-1"
+  description = "AWS Account Region"
+}
 ```
 
 The commands should succeed without error.
