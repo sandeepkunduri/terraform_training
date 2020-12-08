@@ -42,7 +42,7 @@ output "public_dns" {
 }
 ```
 
-The syntax `aws_instance.web[*]` refers to all of the instances, so this will output a list of all of the public IPs and public DNS records. 
+The syntax `aws_instance.web.*` refers to all of the instances, so this will output a list of all of the public IPs and public DNS records. 
 
 ### Step 8.2.2
 
