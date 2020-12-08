@@ -93,7 +93,7 @@ Setup the configuration to utilize the `remote` backend, replacing `ORGANIZATION
 # write_state/main.tf
 terraform {
   backend "remote" {
-    hostname = "gov.tfe.rocks"
+    hostname = "app.terraform.io"
     organization = "<ORGANIZATION NAME>"
 
     workspaces {
@@ -168,7 +168,7 @@ Just as we did in Step 2.2.2, we need to setup our configuration to use the `rem
 # read_state/main.tf
 terraform {
   backend "remote" {
-    hostname = "gov.tfe.rocks"
+    hostname = "app.terraform.io"
     organization = "<ORGANIZATION NAME>"
 
     workspaces {
@@ -196,7 +196,7 @@ data "terraform_remote_state" "write_state" {
   backend = "remote"
 
   config = {
-    hostname = "gov.tfe.rocks"
+    hostname = "app.terraform.io"
     organization = "<ORGANIZATION NAME>"
 
     workspaces = {
