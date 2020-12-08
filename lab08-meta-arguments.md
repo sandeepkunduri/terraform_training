@@ -34,11 +34,11 @@ To do so, modify the output blocks in `server/server.tf` as follows:
 
 ```
 output "public_ip" {
-  value = aws_instance.web[*].public_ip
+  value = aws_instance.web.*.public_ip
 }
 
 output "public_dns" {
-  value = aws_instance.web[*].public_dns
+  value = aws_instance.web.*.public_dns
 }
 ```
 
