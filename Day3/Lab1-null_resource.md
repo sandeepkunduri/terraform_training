@@ -46,7 +46,7 @@ resource "null_resource" "web_cluster" {
 
   provisioner "local-exec" {
     # Bootstrap script called with private_ip of each node in the clutser
-    command = "echo ${join("First Node of the Cluster is : ", aws_instance.web.*.private_ip)}"
+    command = "echo ${join("Nodes of the Cluster : ", aws_instance.web.*.private_ip)}"
   }
 }
 ```
