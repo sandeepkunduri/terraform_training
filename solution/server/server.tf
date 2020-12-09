@@ -5,6 +5,23 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = var.vpc_security_group_ids
   key_name               = var.key_name
 
+  connection {
+    user        = "ubuntu"
+    private_key = var.private_key
+    host        = self.public_ip
+  }
+
+  provisioner "file" {
+    source      = "assets"
+    destination = "/tmp/"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo sh /tmp/assets/setup-web.sh",
+    ]
+  }
+  
   tags = {
     "Identity"    = var.identity
     "Name"        = "Student"
