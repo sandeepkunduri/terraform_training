@@ -53,7 +53,7 @@ resource "null_resource" "web_cluster" {
 Initialize the configuration with a `terraform init` followed by a `plan` and `apply`.
 
 ### Step 16.2.2: Re-run `plan` and `apply` to trigger `null_resource`
-After the infrastructure has completed its buildout, re-run a plan and apply and notice that the null resource is triggered.  This is because the `annotation` attribute of our VM was updated with a new time stamp.
+After the infrastructure has completed its buildout, re-run a plan and apply and notice if the null resource is triggered.  If you modify the `count` vaule of your `aws_instance` the null resource will be triggered.
 
 ```shell
 terraform apply
