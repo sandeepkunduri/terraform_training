@@ -59,7 +59,7 @@ provider "aws" {
 }
 
 module "server" {
-  source = "gov.tfe.rocks/YOUR_ORG_NAME/server/aws"
+  source = "app.terraform.io/YOUR_ORG_NAME/server/aws"
 
   ami                    = var.ami
   subnet_id              = var.subnet_id
