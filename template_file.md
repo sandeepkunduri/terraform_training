@@ -21,7 +21,7 @@ You'll create an S3 bucket and then attach the necessary permissions to your use
 Create a directory for the Terraform configuration. Create a sub-directory for templates. Create a template file.
 
 ```shell
-mkdir -p /workstation/terraform/lab_4_s3-demo/templates && cd $_
+mkdir -p /workstation/terraform/lab_templates/templates && cd $_
 ```
 
 ```shell
@@ -163,11 +163,11 @@ If you have extra time and want to try a more complete, real-world example, you 
 Update the `owner_id` variable to use a real IAM user account name. Your
 workstation should have a hostname which includes the name of an animal. An IAM
 user has already been created with this animal name, so configure the following,
-replacing `<animal>` with the animal name from your workstation:
+replacing `<IDENTITY>` with the indentity from your workstation:
 
 ```bash
 variable "owner_id" {
-  default = "terraform-training-<animal>"
+  default = "<IDENTITY>"
 }
 ```
 
