@@ -7,19 +7,6 @@ This lab demonstrates how to use lifecycle directives to control the order in wh
 - Task 1: Use `create_before_destroy` with a simple AWS security group and instance
 - Task 2: Use `prevent_destroy` with an instance
 
-## Prerequisites
-
-For this lab, we'll assume that you've installed [Terraform](https://www.terraform.io/downloads.html) and that you have defined your AWS credentials in your environment, including a region. See [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html) in the AWS docs for details.
-
-```bash
-export AWS_ACCESS_KEY_ID="AAAAAA"
-export AWS_SECRET_ACCESS_KEY="XXXXXXXX"
-export AWS_DEFAULT_REGION="us-east-1"
-```
-
-**NOTE:** If you're taking this class in a HashiCorp-led training session, your workstation will already have these variables set, or can be loaded with `source ~/.config/envs/aws`.
-
-
 ## Task 1: Use `create_before_destroy` with a simple AWS security group and instance
 
 You'll create a simple AWS configuration with a security group and an associated EC2 instance. Provision them with `terraform`, then make a change to the security group. Observe that `apply` fails because the security group can not be destroyed and recreated while the instance lives.
@@ -31,13 +18,13 @@ You'll solve this situation by using `create_before_destroy` to create the new s
 Start by creating a new directory and `main.tf` to house the new configuration.
 
 ```shell
-mkdir /workstation/terraform/lab_6_lifecycle_demo && cd $_
+mkdir /workstation/terraform/lab_lifecycle_demo && cd $_
 ```
 
 ```shell
 touch main.tf
 touch variables.tf
-touch main.tf
+touch outputs.tf
 ```
 
 Create an S3 security group and an instance that uses it.
