@@ -1,4 +1,4 @@
-# Lab 6: Lifecycles
+# Lab: Lifecycles
 
 Duration: 15 minutes
 
