@@ -1,4 +1,4 @@
-# Lab 1: Null Resource
+# Lab: Null Resource
 
 Duration: 15 minutes
 
