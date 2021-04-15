@@ -12,7 +12,7 @@ Login to github and create a new repository by navigating to <https://github.com
 
 Use the following settings:
 - `name` = "server-build"
-- Public repo
+- Private repo
 - Check "Initialize this repository with a README"
 - Add `.gitignore` of type "Terraform"
 
