@@ -2,10 +2,9 @@
 
 Duration: 20 minutes
 
-This lab demonstrates how to publish modules to the private module registry.
+This lab demonstrates how to consume modules in the private module registry.
 
-- Task 1: Fork a repository on GitHub and add it to your private module repository
-- Task 2: Configure the module with the web UI
+- Task: Configure the module with the web UI
 
 ## Prerequisites
 
