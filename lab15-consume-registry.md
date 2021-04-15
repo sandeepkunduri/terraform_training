@@ -1,4 +1,4 @@
-# Lab 8: Private Module Registry
+# Lab: Private Module Registry
 
 Duration: 20 minutes
 
