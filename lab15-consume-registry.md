@@ -20,7 +20,7 @@ Start by either clicking the "Open in Configuration Designer" button under the r
 
 ![Module Design Configuration](img/module-design-configuration.png "Module Design Configuration")
 
-In either case, you'll see a screen with a list of modules. Click the "Add Module" button on the `animal` module that you imported.
+In either case, you'll see a screen with a list of modules. Click the "Add Module" button on the `animal` module.
 
 ### Step 1.1.2: Configure variables
 
