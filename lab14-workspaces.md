@@ -18,6 +18,11 @@ Use the following settings:
 
 Once created, clone the repository to your local machine.
 
+```
+sudo git clone https://github.com/<YOUR_GIT_HUB_ACCOUNT>/server-build.git
+cd server-build
+```
+
 ### [Local] Update your Repository
 
 In your repository copy the `main.tf` file from your default module along with the `server` folder and contents.
