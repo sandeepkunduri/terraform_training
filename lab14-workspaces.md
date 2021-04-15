@@ -30,9 +30,9 @@ In your repository copy the `main.tf` file from your default module along with t
 Commit the changes in GitHub.
 
 ```
-git add .
-git commit -m "update with terraform code"
-git push
+sudo git add .
+sudo git commit -m "update with terraform code"
+sudo git push
 ```
 
 > **WARNING** :
